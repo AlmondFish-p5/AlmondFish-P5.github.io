@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@JlFGcmdmFpsS9aL" />
+    <meta property="og:url" content="http://almondfish.starfree.jp/index.html" />
+    <meta property="pg:Type" content="website" />
+    <meta property="og:title" content="アニメーションによる統計学習" />
+    <meta property="og:description" content="p5.jsとJavascriptをもちいたアニメーション（数値シミュレーション）で、統計学習をサポートします。" />
+    <meta property="og:image" content="http://almondfish.starfree.jp/img/cover.png" />
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>アニメーションによる統計学習</title>
+    <!-- ----- ファビコン ----- -->
+    <link rel="icon" type="image/ico" href="img/favicon.ico" />
+    <!-- ----- スタイルシート初期化 ----- -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+      article{ display: none; } 
+      div#p5 { height: 60px; margin:0.5rem 2rem; padding: 0; }
+    </style>
+  </head>
+
+  <body>
+  <header class="page_header">
+    <h1 class="page_title">アニメーションによる統計学習</h1>
+    <div id="p5"></div>
+    <nav>
+    <ul>
+      <li class="main_nav" id="random_var">確率変数と確率分布</li>
+      <li class="main_nav" id="describe_stats">さまざまな統計量</li>
+      <li class="main_nav" id="infer_stats">推測統計</li>
+      <li class="main_nav" id="research">調査・実験の計画</li>
+      <li class="main_nav" id="about">このサイトについて</li>
+    </ul>
+    </nav>
+  </header>
+  <main class="main_contents">
+  <article class="main_content" id="content_describe_stats">
+    <!-- 1.記述統計
+     ============================================================= -->
+    <h2 class="block_title">さまざまな統計量</h2>
+    <!-- --------------------------------------------------------- -->
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>平均値を予測しよう</h4>
+        <p>データの平均値や分散について学習します。プロットの配置と、偏差と偏差二乗の視覚的な大きさをたよりに、正しい平均値を予想します。</p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/describe_mean.html" target="_blank"></a></div>
+    </div>
+    <!-- --------------------------------------------------------- -->
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>偏差値を可視化しよう(Old Version)</h4>
+        <p>テストの得点データが正規分布にしたがっていると仮定して、テスト得点と標準得点、偏差値の関係を考えます。テストの平均点と標準偏差、自分の得点を入力して、全体の分布の中での自分の位置を見てみましょう。</p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/dev_val_a01.html" target="_blank"></a></div>
+    </div>
+    <!-- --------------------------------------------------------- -->
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>回帰係数とその予想</h4>
+        <p>ランダムに作成された散布図を見て、回帰直線の切片と傾きを予想します。</p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/regression.html" target="_blank"></a></div>
+    </div>
+    <!-- --------------------------------------------------------- -->
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>相関係数とその予想</h4>
+        <p>ランダムに作成された散布図の見た目だけをもとに、相関係数を予想します。また、データ点を1つだけ（外れ値として）除外したとき、相関係数がどう変化するかを観察します。</p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/correlation.html" target="_blank"></a></div>
+    </div>
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>プロット作成ゲーム</h4>
+        <p>指定された相関係数が算出されるようなプロットを作成するゲームです。</p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/plotmaking.html" target="_blank"></a></div>
+    </div>
+<!--      <div class="content">
+        <div class="sub_content_left">
+        <h4>偏相関係数</h4>
+        <p>3次元プロットを回転させて、剰余変数が相関係数におよぼす影響をシミュレーションします。</p>
+        <p><a href=" .html" target="_blank"> .html</a>
+        </div>
+        <div class="sub_content_right"><img src="img/002.png" /></div>
+      </div> --> 
+    </article>
+  <article class="main_content" id="content_random_var">
+    <!-- 2.1 確率変数
+     ============================================================= -->
+    <h2 class="block_title">身近な確率変数</h2>
+    <!-- --------------------------------------------------------- -->
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>コイン投げ</h4>
+        <p>投げるコインの数が1枚の場合、複数枚の場合、さらに、表と裏が平等に出ない場合など、さまざまな想定をして、表が出る確率をシミュレーションします。</p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/coins.html" target="_blank"></a></div>
+    </div>
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>サイコロ投げ</h4>
+        <p>投げるサイコロの数が1個の場合、複数個の場合、さらに、目が平等に出ない場合など、さまざまな想定をして、目の平均値がどのようになるかをシミュレーションします。</p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/dice.html" target="_blank"></a></div>
+    </div>
+    <!-- 2.2 確率分布
+     ============================================================= -->
+    <h2 class="block_title">確率変数と確率分布</h2>
+    <!-- --------------------------------------------------------- -->
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>確率変数と確率分布</h4>
+        <p>指定した確率分布にしたがう乱数を生成してヒストグラムを描き、確率分布の性質を可視化します。</a></p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/what_is_rv.html" target="_blank"></a></div>
+    </div>
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>確率変数のアフィン変換</h4>
+        <p>確率変数に定数をかける、定数を足すという計算の意味について、乱数をもちいて考えます。</a></p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/af_of_rv.html" target="_blank"></a></div>
+    </div>
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>確率変数の和【A】離散型の場合</h4>
+        <p>抽象的な概念である確率変数の「和」や「平均」を、どのように考えればよいでしょう。実現値のレベルでシミュレーションして考えます。</p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/sum_of_catrv.html" target="_blank"></a></div>
+    </div>
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>確率変数の和【B】連続型の場合</h4>
+        <p>抽象的な概念である確率変数の「和」や「平均」を、どのように考えればよいでしょう。実現値のレベルでシミュレーションして考えます。</p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/sum_of_rv.html" target="_blank"></a></div>
+    </div>
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>正規分布の再生性</h4>
+        <p>パラメータの異なる正規分布にしたがう独立な確率変数の和、または、同じパラメータの正規分布にしたがう独立な確率変数の平均をシミュレーションします。</p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/reproduct.html" target="_blank"></a></div>
+    </div>
+<!--      <div class="content">
+        <div class="sub_content_left">
+        <h4>中心極限定理</h4>
+        <p>パラメータの等しい正規分布にしたがう確率変数の平均が、正規分布にしたがう様子をシミュレーションします。</p>
+        <p><a href="z2-dist/reproduct03.html" target="_blank">z2-dist/reproduct03.html</a>
+        </div>
+        <div class="sub_content_right"><img src="img/002.png" /></div>
+      </div>-->
+    <!-- --------------------------------------------------------- -->
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>カイ二乗分布(Old Version)</h4>
+        </p>標準正規分布にしたがう確率変数を2乗した新しい確率変数が、どんな分布をするかをシミュレーションします。これをいくつか足し合わせると、分布がどのように変化するでしょうか。</p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/chisq11.html" target="_blank"></a></div>
+    </div>
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>t分布(Old Version)</h4>
+        <p>t分布は、標準正規分布にしたがう確率変数と、カイ二乗分布にしたがう確率変数をもとに定義されています。自由度を変えると、分布の様子が変化します。</p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/student_t02.html" target="_blank"></a></div>
+    </div>
+<!--      <div class="content">
+        <div class="sub_content_left">
+        <h4>F分布</h4>
+        <p>2つのカイ二乗分布の比がF分布です。自由度を変化させると、分布の様子がどのように変化するでしょうか。</p>
+        <p><a href="z2-dist/ .html" target="_blank">z2-dist/ .html</a>
+        </div>
+        <div class="sub_content_right"><img src="img/002.png" /></div>
+      </div> -->
+  </article>
+  <article class="main_content" id="content_infer_stats">
+    <!-- 3.推測統計
+     ============================================================= -->
+    <h2 class="block_title">推測統計</h2>
+    <!-- --------------------------------------------------------- -->
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>母平均の点推定</h4>
+        <p>標本は母集団より小さいので、標本平均はふつう、母平均に一致しません。つまり、点推定はたいてい失敗します。では、「このくらいのずれなら成功と見なす」という許容範囲を設定したらどうなるでしょう。</p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/point_estimation.html" target="_blank"></a></div>
+    </div>
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>母平均の区間推定</h4>
+        <p>標本平均から、母平均を95％の割合でふくむ範囲である「95％信頼区間」を算出し、信頼区間が母平均をふくむかどうかをシミュレーションします。</p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/interval_estimation.html" target="_blank"></a></div>
+    </div>
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>不偏推定量</h4>
+        <p>標本平均と不偏分散が、母平均および母分散の不偏推定量であることをシミュレーションで確かめます。母数がわかっている母集団から小さいサイズで何度もサンプリングし、平均・分散・標準偏差など5つの統計量の平均値を求めます。</p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/unbiased_estimate.html" target="_blank"></a></div>
+    </div>
+  </article>
+  <article class="main_content" id="content_research">
+    <!-- 5.調査・実験の計画
+     ============================================================= -->
+    <h2 class="block_title">調査・実験の計画</h2>
+    <!-- --------------------------------------------------------- -->
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>サンプリング体験（１）</h4>
+        <p>母集団と標本サイズを指定し、標本抽出する過程をシミュレーションします。</p>
+        </div>
+      <div class="sub_content_right"><a  href="contents/sampling_simple.html" target="_blank"></a></div>
+    </div>
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>t検定シミュレーション</h4>
+        <p>平均や分散の異なる2つの母集団からデータを抽出し、標本平均に有意差があるかを検討する分析（対応のないt検定）をシミュレーションします。</p>
+        </div>
+      <div class="sub_content_right"><a  href="contents/t_test_simulation.html" target="_blank"></a></div>
+    </div>
+<!--      <div class="content">
+        <div class="sub_content_left">
+        <h4>サンプリング体験B(Old Version)</h4>
+        <p>母集団と標本サイズを指定して、小学生の発育統計をもとにした乱数データをもった個体をサンプリングし、分析の練習をします。</p>
+        <p><a href="contents/sample02.html" target="_blank">contents/sample02.html</a>
+        </div>
+        <div class="sub_content_right"><img src="contents/img/sample02.png" /></div>
+      </div> -->
+  </article>
+  <article class="main_content" id="content_about">
+    <!-- 6.このサイトについて
+     ============================================================= -->
+    <h2 class="block_title">このサイトについて</h2>
+    <!-- --------------------------------------------------------- -->
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>このサイトについて</h4>
+        <p>このサイトの成長記録を書いています。</p>
+      </div>
+      <div class="sub_content_right"><a  href="about/about.html" target="_blank"></a></div>
+    </div>
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>アニメーションに適したプロットの提案</h4>
+        <p>本サイトで利用しているプロットのうち、線香花火プロット、バーコードプロットについて紹介しています。</p>
+      </div>
+      <div class="sub_content_right"><a  href="about/about_plot.html" target="_blank"></a></div>
+    </div>
+    <!-- 6.おまけ
+     ============================================================= -->
+    <h2 class="block_title">おまけ</h2>
+    <!-- --------------------------------------------------------- -->
+    <div class="content">
+      <div class="sub_content_left">
+        <h4>モンティホール問題</h4>
+        <p>モンティホール問題を、シミュレーションを使って考えています。</p>
+      </div>
+      <div class="sub_content_right"><a  href="contents/montyhall.html" target="_blank"></a></div>
+    </div>
+    </div>
+  </article>
+  </main>
+  <footer class="page_footer">
+      <p>Created by Almond Fish &nbsp; / &nbsp;
+        <a href="https://almondfish.hatenablog.com/">Almond FishのBLOG</a> &nbsp;/&nbsp;
+        <a href="https://twitter.com/JlFGcmdmFpsS9aL">Almond FishのX</a> 
+      </p>
+  </footer>
+    <script src="js/mainscript.js" type="text/javascript"></script>
+    <script src="js/prpr2.js" type="text/javascript"></script>
+  </body>
+</html>
