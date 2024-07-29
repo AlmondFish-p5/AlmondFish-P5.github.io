@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>さまざまな統計量</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== クリップボードライブラリ ===== -->
+    <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+  <!-- ===== 自作ライブラリ ===== -->
+    <script src="lib/histgram.js" defer></script>
+    <script src="lib/descript_stat.js" defer></script>
+    <script src="js/contents.js"></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/contents_style.css">
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>【さまざまな統計量】回帰係数とその予想</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="lesson">学習課題</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2>〈解説〉回帰係数</h2>
+        <h3>回帰直線</h3>
+        <p>データを平面上にプロットした時に、プロットした点がある直線にそって並んでいるように見えることがあります。プロットした点のちょうど真ん中あたりを通るように直線を引くことで、横軸の値\(x\)がこのくらいの値だったら、縦軸の値\(y\)はこのくらいの値だろうという説明や予測に役立てることができます。この直線を回帰直線と言います。</p>
+        <h3>回帰係数：切片と傾き</h3>
+        <p>回帰直線は、\(y=ax+b\)という数式で表すことができます。\(a\)は直線の傾きを表し、\(x\)が1増えたときの、\(y\)の増加分を表します。\(b\)は切片で、\(x=0\)であると仮定したときの\(y\)の値を表します。回帰直線を引くとは、この\(a,b\)を決めることです。</p>
+        <h3>回帰分析</h3>
+        <p>データをもとに、なるべくぴったりした回帰係数を計算する分析を回帰分析といいます。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2>〈使用方法〉回帰係数の予想</h2>
+        <p>画面上に、ランダムに作成したデータをプロットして示します。プロットの配置をたよりに、回帰係数を予測してください。<span class="button">判定</span>ボタンを押すと、プロットから計算した最適な回帰直線を赤で表示します。</p>
+        <h3>切片</h3>
+        <p>切片を変更すると、回帰直線が上下に平行移動します。傾きや切片の値はプログラムがランダムに決めます。</p>
+        <h3>傾き</h3>
+        <p>傾きを変更すると、回帰直線が上切片の位置を中心に回転します。このとき、横軸原点が画面上には含まれていないことに注意してください。</p>
+        <h3>データ数</h3>
+        <p>データ数を変更すると、プロットされるデータ数を好みの値に設定できます。指定できる範囲は10～100です。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="lesson_contents" class="article_contents">
+        <h2>〈学習課題〉回帰係数の計算</h2>
+        <ol>
+          <li>データ数が少ない時と、多い時とでは、どちらが回帰係数の予測がしやすいですか。また、なぜそのように感じますか。データ数を変えてためしてみましょう。</li>
+          <li>ローデータをもちいて、統計ソフトをつかって回帰係数を計算してみましょう。また、回帰係数の信頼区間をもとめ、ひとつめの課題で感じたことが、データ上ではどのように表されるかを考えてみましょう。</li>
+        </ol>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>予想と判定</h2>
+        <div id="settings">
+          <p>
+            データ数
+            <input class="number" id="user_datanumber" type="number" value="30" min="10" max="100" step="10" />
+            <input class="button" id="btn_draw" type="button" value="プロット描画" /></p>
+          <p id="estimate">
+            回帰係数の予想：切片
+            <input class="number" id="user_intercept" type="number" value="0" min="0" max="50" step="0.1" />
+            傾き
+            <input class="number" id="user_slope" type="number" value="0" step="0.01" min="-5" max="5">
+            <input class="button" id="btn_judge" type="button" value="判定" />
+            <input class="button" id="btn_reset" type="button" value="リセット" />
+          </p>
+        </div>
+      </article>
+      <div id="p5">
+        <script src="scripts/regression.js"></script>
+      </div>
+      <div id="result">
+      </div>
+      <div id="rawdata">
+      </div>
+    </main>
+  </body>
+</html>
+

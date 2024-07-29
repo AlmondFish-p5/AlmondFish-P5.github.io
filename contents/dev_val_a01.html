@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+    <style>
+      h1 {
+        margin: 0px;
+        padding: 10px;
+        font-size: 125%;
+        background-color: #afd;
+      }
+      div.description {
+        width: 80%;
+      }
+      span.term {
+        background-color: #fdd;
+        font-weight: bold;
+        padding: 2px 8px;
+      }
+      span.term2 {
+        background-color: #ccf;
+        font-weight: bold;
+        padding: 2px 8px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>偏差値の可視化</h1>
+    <div>
+      <p>テストの平均点、標準偏差、個人得点を入力して、偏差値を可視化しよう。<br />
+      初期値はランダムに決まっています。数値を変更すると、グラフを描き直します。<br />
+      丸め誤差のため、標準正規分布表に記載された確率と完全に一致しないことがあります。
+      </p>
+      <p><span class="term">平均点</span>
+      <input id="test_mu" class="numberinput" type="number" step=1 value=0 min=0 max=100></input> &nbsp;
+      <span class="term">標準偏差</span>
+      <input id="test_sigma" class="numberinput" type="number" step=1 value=1 min=1 max=20></input> &nbsp;
+      <span class="term">個人得点</span>
+      <input id="test_point" class="numberinput" type="number" step=1 value=0 min=0 max=100></input> &nbsp;
+      <span class="term">アイコン</span>
+      <select id="my_icon">
+        <option>🐼</option>
+        <option>🐶</option>
+        <option>🐔</option>
+        <option>🐟</option>
+        <option>🐤</option>
+        <option>👻</option>
+        <option>😺</option>
+      </select>
+      </p>
+      <p>
+      <span class="term2">標準得点</span>
+      <span id="z_score"></span> &nbsp;
+      <span class="term2">偏差値</span>
+      <span id="d_score"></span>
+      </p>
+    </div>
+    <div>
+      <script src="scripts/dev_val_a01.js" type="text/javascript"></script>
+    </div>
+  </body>
+</html>

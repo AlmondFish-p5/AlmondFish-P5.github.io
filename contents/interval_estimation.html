@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>推測統計</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== jStat ライブラリ ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/jStat@1.8.6/dist/jstat.min.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+  <!-- ===== 自作ライブラリ ===== -->
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/contents_style.css">
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>【推測統計】母平均の区間推定</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="lesson">学習課題</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2>〈解説〉区間推定 interval estimation</h2>
+        <h3>区間推定</h3>
+        <p>母平均を直接調査することはほぼ不可能なので、少数の標本データをもとに、母平均を推定します。このとき、<strong>母平均が含まれるであろう区間を標本平均と標準偏差、サンプルサイズなどから推定すること（その区間の上限・下限を計算すること）を<u>区間推定</u>といいます</strong>。</p>
+        <h3>信頼係数</h3>
+        <p>計算された区間に母平均が含まれると推定される割合を事前に設定します。これを信頼係数といい、通常、95％がよく使われます。95％の確率で母平均を含むと推定された区間を、「95％信頼区間」といいます。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2>〈使用方法〉95％信頼区間は95％の割合で母数を含むか</h2>
+        <h3>母集団パラメータと標本サイズの指定</h3>
+        <p>母集団が正規分布していると仮定したうえで、パラメータ（平均、標準偏差）を設定します。初期値は、平均\(\mu=0\)、標準偏差\(\sigma=1\)です。次に、その母集団から標本抽出する際の標本サイズを指定します。初期値は、標本サイズ\(n=10\)です。</p>
+        <h3>信頼係数の指定</h3>
+        <p>信頼係数を指定します。通常0.95（95％）で、特に理由のない限り変更する必要はありません。</p>
+        <h3>繰り返し回数の指定</h3>
+        <p>指定した条件で何回シミュレーションを繰り返すかを指定して実行してください。途中、任意のタイミングで一時停止・再開することができます。</p>
+        <p>所要時間は、繰り返し回数1000で約70秒です（Windows10, Core i7, Chrome 124 で測定。ご利用の環境に依存します）。
+      </article>
+    <!-- ==================================== -->
+      <article id="lesson_contents" class="article_contents">
+        <h2>〈学習課題〉区間推定とその成功確率</h2>
+        <ol>
+          <li>提供しているスクリプトを使って、ローデータからシミュレーション1回ごとの、標本平均、不偏分散、母平均95％信頼区間を計算してみましょう。計算結果が、提供している統計データ Stats Data と同じになることを確認しましょう。</li>
+          <li>サンプルサイズを一定にし、シミュレーション回数だけを変えて何度か試してみましょう。信頼区間が母平均をふくむ割合はどう変わるでしょうか。</li>
+          <li>シミュレーション回数を一定にし、サンプルサイズだけを変えて何度か試してみましょう。信頼区間が母平均をふくむ割合はどう変わるでしょうか。</li>
+          <li>サンプルサイズとシミュレーション回数を一定にし、信頼係数が95％の場合と90％の場合を比較しましょう。信頼区間が母平均をふくむ割合はどう変わるでしょうか。そのことから、信頼係数が95％の場合と90％の場合では、信頼区間の広さはどう異なると考えられますか。</li>
+        </ol>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>設定と実行</h2>
+        <div id="settings">
+          <p class="user_setting">
+            母集団平均\(\mu\)=
+            <input class="number" id="user_mu" type="number" value="0" min="0" max="50" step="1" /><span id="user_mu_interval"></span> &nbsp;
+            母集団標準偏差\(\sigma\)=
+            <input class="number" id="user_sigma" type="number" value="1" min="0.1" max="10" step="0.1" /><span id="user_sigma_interval"></span><br />
+            標本サイズ\(n\)=
+            <input class="number" id="user_sample_size" type="number" value="10" min="2" max="50" step="1" /><span id="user_sample_size_interval"></span> &nbsp;
+            信頼係数
+            <input class="number" id="user_conflevel" type="number" value="0.95" min="0.5" max="0.99" step="0.01" /><span id="user_conflevel_interval"></span><br />
+            繰り返し回数
+            <input class="number" id="trial_number" type="number" value="500" min="500" max="5000" step="100" /><span id="trial_number_interval"></span> &nbsp;
+            <input class="button" id="btn_start" type="button" value="実行" />
+            <input class="button" id="btn_pause" type="button" disabled value="一時停止" />
+            <input class="button" id="btn_reset" type="button" value="リセット" />
+          </p>
+        </div>
+      </article>
+      <div id="p5">
+        <script src="scripts/interval_estimation.js"></script>
+        <script src="lib/myRvPlotter.js"></script>
+        <script src="lib/myHistgram.js"></script>
+        <script src="js/contents.js"></script>
+      </div>
+      <div id="download" style="display:none;">
+        <p>ボタンをクリックすると、各種データのダウンロードができます。</p><p>
+        <input class="button data_download" type="button" id="raw_data" value="ローデータ" />&nbsp;
+        <input class="button data_download" type="button" id="stats_data" value="統計データ" />&nbsp;
+        <input class="button data_download" type="button" id="script" value="R スクリプト" /></p>
+      </div>
+    </main>
+  </body>
+</html>
+

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>調査・実験計画</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== jStat ライブラリ ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/jStat@1.8.6/dist/jstat.min.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+  <!-- ===== 自作ライブラリ ===== -->
+    <script src="lib/histgram.js" defer></script>
+    <script src="lib/descript_stat.js" defer></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/contents_style.css">
+    <style>
+      p#group1, p#group2, p#sampling_setting, p#post_analysis {
+        margin-bottom: 0.5rem;
+        border-left: 24px solid #ccc;
+        background-color: #f6f6f6;
+        padding: 0.1rem 0.5rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>【調査・実験計画】t検定シミュレーション（2群の平均値の差の検討）</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="lesson">学習課題</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2>〈解説〉調査・実験のシミュレーション：t検定</h2>
+        <h3>平均値の差を検討する</h3>
+        <p>t検定は、2つの平均値に統計的な差があるかどうかを検討する方法です。たとえば、心理学研究に参加してくれた学生の英単語記憶テストの成績を、記憶方法Aを用いた学生と記憶方法Bを用いた学生とで比較したとします。このとき、成績の平均点に統計的な差があり、記憶方法Bのほうが平均点が高かったとすると、一般に記憶方法Bを用いるように指導することで学習成績が伸ばせる可能性があります。研究に参加してくれた少数の学生のデータをもとに、母集団でも同じ傾向があるだろうと予想しているわけです。この例の場合、母集団は記憶方法AまたはBを用いて学習している（あるいはこれから学習する）学生であると考えられます。<small>（もちろんですが、学習成績に影響するのは記憶方法だけではありません。t検定の説明のための、きわめて単純化した例であることに注意してください。）</small></p>
+        <h3>シミュレーションと実際の調査・実験の違い</h3>
+        <p>実際の実験や調査では、データを取得する機会は一度だけです。しかし、取得されたデータは、あくまでも「確率的に変動する値」のうちの一つであり、絶対的なものではありません。もしも別のタイミングでデータを取得していたら、どのようなデータが得られる可能性があったのかを示してくれるのがシミュレーションです。なお、実際の実験や調査に近いデータにするため、乱数をすべて整数に丸めています。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2>〈使用方法〉実験・調査からデータ分析までを体験しよう</h2>
+        <h3>母平均・母分散</h3>
+        <p>母集団を何らかの変数で2つに分けた時、平均や分散が異なるだろうと想定し、それぞれを「母集団1」「母集団2」と呼ぶことにします。それぞれの母平均・母分散を指定してください。（ただし、母平均>0とします。）</p>
+        <h3>標本サイズ</h3>
+        <p>標本サイズを設定します。計算の簡略化のため、母集団1と母集団2のそれぞれから、同じサイズで標本抽出することにします。心理学実験では心理尺度への回答データなど整数値を扱うことが多いことから、データはすべて整数に丸められます。</p>
+        <h3>シミュレーション</h3>
+        <p><span class="button">開始</span>をクリックすると、設定したパラメータをもつ正規乱数を生成します。そして、ランダムなタイミングで、指定回数だけサンプリングが行われ、データ（整数）が取得されます。サンプリングが終わると、自動的に閲覧モードに移行し、データと検定結果を見ることができます。すべてのデータはダウンロード可能です。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="lesson_contents" class="article_contents">
+        <h2>〈学習課題〉サンプリングを体験しよう</h2>
+        <ol>
+          <li>2つの母集団の母平均・母分散を、同一の値に設定してサンプリングしたとき、t検定で「標本平均に有意差あり」という結果が出ることはありうるでしょうか。試してみましょう。</li>
+          <li>2つの母集団が、明らかに異なる母平均・母分散をもっているように設定したとき、t検定で「標本平均に有意差なし」という結果が出ることはありうるでしょうか。試してみましょう。</li>
+        </ol>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>設定と実行</h2>
+        <div id="settings">
+          <p id="group1"><strong>母集団1：</strong><input id="groupname1" class="text simset" type="text" value="Group1" style="width:8rem;" />
+            母平均1 \(\mu_1\)=<input id="mu1" class="number simset" type="number" value="" min="0" step="1" />
+            母分散1 \(\sigma^2_1\)=<input id="sigma1" class="number simset" type="number" value="" min="0.1" step="0.1" /></p>
+          <p id="group2"><strong>母集団2：</strong><input id="groupname2" class="text simset" type="text" value="Group2" style="width:8rem;" />
+            母平均2 \(\mu_2\)=<input id="mu2" class="number simset" type="number" value="" min="0" step="1" />
+            母分散2 \(\sigma^2_2\)=<input id="sigma2" class="number simset" type="number" value="" min="0.1" step="0.1" /></p>
+          <p id="sampling_setting"><strong>標本サイズ：</strong>n<sub>1</sub>=n<sub>2</sub>=<input id="sample_size" class="number simset" type="number" value="10" min="10" max="50" step="1" /><span id="sample_size_interval"></span>
+            <strong>標本数：</strong><input id="sample_number" class="number simset" type="number" value="10" min="1" max="100" step="1" /><span id="sample_number_interval"></span><input class="button" id="btn_start" type="button" value="開始" />&nbsp;／&nbsp;<input class="button" id="btn_reset" type="button" value="リセット" /></p>
+          <p id="post_analysis" style="margin-top:0.5rem;"><strong>サンプリング番号：</strong><input id="sample_index" class="number simset" type="number" value="1" min="1" max="1" step="1" />
+          </p>
+        </div>
+      </article>
+      <div id="p5">
+        <script src="scripts/t_test_simulation.js"></script>
+        <script src="lib/myHistgram.js"></script>
+        <script src="lib/myDistFunction.js"></script>
+        <script src="lib/myRvPlotter.js"></script>
+        <script src="js/contents.js"></script>
+      </div>
+      <div id="download" style="display:none;">
+        <p>ボタンをクリックすると、各種データのダウンロードができます。</p><p>
+        <input class="button data_download" type="button" id="raw_data" value="ローデータ" />&nbsp;
+        <input class="button data_download" type="button" id="stats_data" value="統計データ" />&nbsp;
+        <input class="button data_download" type="button" id="script" value="R スクリプト" /></p>
+      </div>
+    </main>
+  </body>
+</html>
+

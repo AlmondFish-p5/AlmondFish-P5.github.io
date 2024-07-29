@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>確率変数と確率分布</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== jStat ライブラリ ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/jStat@1.8.6/dist/jstat.min.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+  <!-- ===== 自作ライブラリ ===== -->
+    <script src="lib/histgram.js" defer></script>
+    <script src="lib/descript_stat.js" defer></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/contents_style.css">
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>【確率変数と確率分布】確率変数の変換</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="lesson">学習課題</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2>〈解説〉確率変数の変換</h2>
+        <h3>アフィン変換</h3>
+        <p>アフィン変換とは、\(f(x)=ax+b\)で表されるような変換のことです。詳しい説明は<a href="https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%95%E3%82%A3%E3%83%B3%E5%86%99%E5%83%8F" target="_blank">こちら</a>などをお読みください。</p>
+        <h3>確率変数の変換</h3>
+        <p>確率変数は、どんな値をとるかが定まっていない、常に「ゆらいでいる」ものですが、確率変数をアフィン変換すると、変換されたものも常に「ゆらいでいる」ことになります。変換前の確率変数を\(X\)、変換後の確率変数を\(Y\)とすると、\(Y=aX+b\)と表すことができ、その平均値（期待値）は\(\mu_Y=a\mu_X+b\)、分散は\(\sigma^2_Y=a^2\sigma^2_X\)となります。標準偏差は、\(\sigma_Y=|a|\sigma_X\)となります。このページでは、これをシミュレーションで確かめます。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2>〈使用方法〉</h2>
+        <h3>確率分布とパラメータ</h3>
+        <p>確率分布は正規分布に限定しています。パラメータ（平均値、標準偏差）を任意の値に指定してください（表示範囲外の値は指定できません）。初期値は平均値0、標準偏差1です。</p>
+        <h3>アフィン変換パラメータ</h3>
+        <p>アフィン変換\(f(x)=ax+b\)のパラメータである、\(a,b\)を指定してください。</p>
+        <h3>横軸表示範囲</h3>
+        <p>入力されたパラメータをもとに横軸の表示範囲の目安を示しています。これより少し広めの範囲を設定することをおすすめします。</p>
+        <h3>乱数の生成</h3>
+        <p>確率変数\(X\)の実現値を乱数で生成し、それをアフィン変換した\(Y\)の値を表示します。<span class="button">乱数を1つ生成</span>をクリックするごとに、乱数を1つ生成します。実現値の世界で、アフィン変換の性質を確かめてください（丸め誤差が含まれることに注意してください）。しくみを理解したら、繰り返し回数を指定して<span class="button">乱数を連続生成</span>してくだい。</p>
+
+        <p>所要時間は、繰り返し回数1000で約70秒です（Windows10, Core i7, Chrome 124 で測定。ご利用の環境に依存します）。
+      </article>
+    <!-- ==================================== -->
+      <article id="lesson_contents" class="article_contents">
+        <h2>〈学習課題〉確率変数の変換</h2>
+        <ol>
+          <li>パラメータを設定した後、アフィン変換した確率変数の平均値と標準偏差を自分で計算してから、シミュレーションを行いましょう。ローデータを分析し、計算した平均値と標準偏差のとおりになっているかを確かめましょう。</li>
+          <li>アフィン変換のパラメータ\(a\)が負の値になっても、アフィン変換後の確率変数の分散が、もとの確率変数の分散より大きくなる理由を、自分の言葉で説明してみましょう。また、実際に\(a\)に負の値を設定して、そのことを確かめてみましょう。</li>
+        </ol>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>設定と実行</h2>
+        <div id="settings">
+          <p class="user_setting">
+            <strong><span style="border-bottom:3px solid #f00">確率変数\(X\)</span></strong>：正規分布
+            <!-- 確率分布ごとに設定できるパラメータが違う -->
+            <span class="paraset">平均\(\mu\)=<input id="norm_mu" class="number" type="number" value="0" min="-5" max="5" step="0.1"/><span id="norm_mu_interval"></span>&nbsp;標準偏差\(\sigma\)=<input id="norm_sigma" class="number" type="number" value="1" min="0.1" max="5" step="0.1" /><span id="norm_sigma_interval"></span>&nbsp;</span><br />
+            <strong><span style="border-bottom:3px solid #0f0">アフィン変換<small>(\(aX+b\))</small></span></strong>：<span class="paraset">\(a\)=<input id="affin_a" class="number" type="number" value="2" min="-3" max="3" step="0.1"/><span id="affin_a_interval"></span>&nbsp;\(b\)=<input id="affin_b" class="number" type="number" value="1" min="-5" max="5" step="0.1" /><span id="affin_b_interval"></span>&nbsp;</span><br />
+            <strong>横軸表示範囲</strong>：最小値<span id="inter_min_ref"></span><input id="inter_min" class="number cv_inter" type="number" value="-5" step="1"/>&nbsp;最大値<span id="inter_max_ref"></span><input id="inter_max" class="number cv_inter" type="number" value="10" step="1"/>
+          </p>
+          <p style="margin-top:0.5rem;">
+            <input class="button" id="btn_onetime" type="button" value="乱数を1つ生成" />&nbsp;または&nbsp;
+            <input class="button" id="btn_start" type="button" value="乱数を連続生成" />
+            繰り返し回数
+            <input class="number" id="trial_number" type="number" value="500" min="500" max="5000" step="100" /><span id="trial_number_interval"></span>
+            <input class="button" id="btn_reset" type="button" value="リセット" />
+          </p>
+        </div>
+      </article>
+      <div id="p5">
+        <script src="lib/myRvPlotter.js"></script>
+        <script src="lib/myHistgram.js"></script>
+        <script src="lib/myDistFunction.js"></script>
+        <script src="scripts/af_of_rv.js"></script>
+        <script src="js/contents.js"></script>
+      </div>
+      <div id="download" style="display:none;">
+        <p>ボタンをクリックすると、各種データのダウンロードができます。</p><p>
+        <input class="button data_download" type="button" id="raw_data" value="ローデータ" />&nbsp;
+        <input class="button data_download" type="button" id="stats_data" value="統計データ" />&nbsp;
+        <input class="button data_download" type="button" id="script" value="R スクリプト" /></p>
+      </div>
+    </main>
+  </body>
+</html>
+

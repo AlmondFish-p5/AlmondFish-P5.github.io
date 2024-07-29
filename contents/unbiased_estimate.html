@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>推測統計</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== jStat ライブラリ ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/jStat@1.8.6/dist/jstat.min.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/contents_style.css">
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>【推測統計】不偏推定量</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="lesson">学習課題</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2>〈解説〉不偏推定量</h2>
+        <h3>推定量</h3>
+        <p>母集団の特徴を表すパラメータ（母平均、母分散など）を推定するために利用する標本統計量を、推定量といいます。標本平均、標本分散などが推定量の例です。</p>
+        <h3>不偏性</h3>
+        <p>ある推定量 \(\theta\) の期待値が母数と一致する性質を<span class="term">不偏性 unbiasedness</span>といい、不偏性を備えた推定量を、不偏推定量といいます。<br />
+      母集団分布にしたがう、互いに独立な確率変数 \(X_i\) があるとき、その平均 \(\bar X = \frac1n \sum X_i\) および（偏差平方和をn-1で割った）分散 \(u^2 = \frac{1}{n-1} \sum (X_i-\bar X)^2\) は不偏推定量です。</p>
+        <p></p>
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2>〈使用方法〉統計量に不偏性があるかどうかをシミュレーションする</h2>
+        <h3>母集団分布</h3>
+        <p>母集団分布を、正規分布（平均0、標準偏差1）、t分布（自由度4）、一様分布（範囲-3～3）から選びます。各分布のパラメータは固定されています。</p>
+        <h3>不偏推定量候補</h3>
+        <p>不偏推定量の候補として、平均、分散（偏差平方和を[n-1またはn]で割った値）、標準偏差（[n-1またはn]で割った分散の正の平方根）を取り上げ、それぞれが不偏推定量といえるかどうかを考えます。</p>
+        <h3>サンプルサイズ</h3>
+        <p>標本として抽出するサイズを指定します。抽出した標本から上述の5つの統計量を求める作業を、指定回数繰り返します。そして、それぞれの統計量の平均値を求めます。不偏性がある統計量であれば、統計量の平均値が母数に近い値になるはずです。</p>
+
+        <p>所要時間は、繰り返し回数1000で約70秒です（Windows10, Core i7, Chrome 124 で測定。ご利用の環境に依存します）。
+      </article>
+    <!-- ==================================== -->
+      <article id="lesson_contents" class="article_contents">
+        <h2>〈学習課題〉統計量の不偏性を確かめる</h2>
+        <ol>
+          <li>3種類の分布のどれを選んでも、「標本平均の平均値」のヒストグラムの形はよく似たものになります。サンプルサイズを同じにして、分布だけを変えてこのことを確かめましょう。</li>
+          <li>サンプルサイズを変えると、標本平均や分散、標準偏差の平均値のヒストグラムの形は、どのように変わるでしょう。分布を固定して、サンプルサイズが小さい時（4あるいは5）と比較的大きい時（20あるいは25）とで比較してみましょう。</li>
+          <li>ローデータをつかって、それぞれのサンプルの統計量（平均、分散、標準偏差）を算出して、それぞれの平均値を計算してみましょう。画面に表示されたシミュレーション結果と一致することを確かめましょう（画面表示は、結果を小数点以下3桁で丸めていることに注意してください）。</li>
+        </ol>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>設定と実行</h2>
+        <div id="settings">
+          <p class="user_setting">
+            母集団分布：
+            <select id="select_dist" style="width:15rem; text-align:left; padding-left:0.3rem;">
+              <option value="-1">選択してください・・・</option>
+              <option value="0">正規分布（平均0、標準偏差1）</option>
+              <option value="1">t分布（自由度4）</option>
+              <option value="2">一様分布（範囲-3～3）</option>
+            </select>
+            <span id="aboutdist"></span><br />
+            サンプルサイズ：
+            <input class="number" id="sample_size" type="number" value="5" min="3" max="50" step="1" /><span id="sample_size_interval"></span>
+          </p>
+          <p style="margin-top:0.5rem;">
+            繰り返し回数
+            <input class="number" style="width:6rem;" id="trial_number" type="number" value="1000" min="1000" max="10000" step="500" /><span id="trial_number_interval"></span>
+            <input class="button" id="btn_start" type="button" value="実行" />
+            <input class="button" id="btn_reset" type="button" value="リセット" />
+          </p>
+        </div>
+      </article>
+      <div id="p5"><!-- ===== 自作ライブラリの読み込みはここで ===== -->
+        <script src="lib/myHistgram.js"></script>
+        <script src="lib/myRvPlotter.js"></script>
+        <script src="scripts/unbiased_estimate.js"></script>
+        <script src="js/contents.js"></script>
+      </div>
+      <div id="download" style="display:none;">
+        <p>ボタンをクリックすると、各種データのダウンロードができます。</p><p>
+        <input class="button data_download" type="button" id="raw_data" value="ローデータ" />&nbsp;
+        <input class="button data_download" type="button" id="stats_data" value="統計データ" />&nbsp;
+        <input class="button data_download" type="button" id="script" value="R スクリプト" /></p>
+      </div>
+    </main>
+  </body>
+</html>
+

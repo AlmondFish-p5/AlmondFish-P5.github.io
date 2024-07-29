@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>確率変数と確率分布</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== jStat ライブラリ ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/jStat@1.8.6/dist/jstat.min.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+  <!-- ===== 自作ライブラリ ===== -->
+    <script src="lib/histgram.js" defer></script>
+    <script src="lib/descript_stat.js" defer></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/contents_style.css">
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>【確率変数と確率分布】確率変数の和と平均</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="lesson">学習課題</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2>〈解説〉確率変数を足すということ</h2>
+        <h3>確率変数</h3>
+        <p>確率変数とは、ランダムに値が決まる変数のことです。ただし、値の決まり方に確率的な法則があると仮定されています。この法則のことを確率分布といいます。確率分布には、正規分布、カイ二乗分布などがあります。</p>
+        <h3>確率変数を「足す」</h3>
+        <p>確率変数は、どんな値をとるかが定まっていない、常に「ゆらいでいる」ものですから、それを「足す」というのはイメージしにくいでしょう。そこで、乱数を使って、実現値の世界で考えます。確率変数\(X\)の1つの実現値（\(x_1\)）と、確率変数\(Y\)の1つの実現値（\(y_1\)）を足したもの（\(x_1+y_1=z_1\)）を、確率変数\(Z=X+Y\)の実現値と考えます。このようにして実現値を大量に発生させ、\(Z\)がどのような分布になるかを確かめることにします。\(X,Y\)がともに正（負）のとき、\(Z\)は常にそれらより大きい（小さい）値をとります。このことから、\(Z\)の分散が\(X,Y\)の分散より大きくなると予想されます。</p>
+        <p>また、\(X,Y\)の平均（\(\frac12(x_1+y_1)=z_1\)）を\(Z\)の実現値としたとき、\(Z\)はかならず\(X,Y\)の中間の位置にプロットされます。このことから、\(Z\)の分散が\(X,Y\)の分散より小さくなると予想されます。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2>〈使用方法〉</h2>
+        <h3>確率分布</h3>
+        <p>\(X\)と\(Y\)の確率分布を選んでください。正規分布を選ぶと、平均値と標準偏差を指定できます。初期値は平均値0、標準偏差1の標準正規分布です。カイ二乗分布を選ぶと、自由度を指定できます。初期値は自由度1です。</p>
+        <h3>合計あるいは平均</h3>
+        <p>2つの確率変数の<span class="label">合計を考える</span>のか、<span class="label">平均を考える</span>のかを選択します。どちらかを選択すると、乱数を生成するボタンが押せるようになります。</p>
+        <h3>乱数の生成</h3>
+        <p>\(X\)と\(Y\)の実現値を1つ、乱数で生成します。その和あるいは平均を\(Z\)の実現値とします。<span class="button">乱数を1つ生成</span>をクリックするごとに、1組の乱数を生成します。実現値の世界で、\(X\)と\(Y\)の和あるいは平均の値を確かめてください（丸め誤差が含まれることに注意してください）。シミュレーションのしくみを理解したら、繰り返し回数を指定して<span class="button">乱数を連続生成</span>してくだい。</p>
+
+        <p>所要時間は、繰り返し回数1000で約70秒です（Windows10, Core i7, Chrome 124 で測定。ご利用の環境に依存します）。
+      </article>
+    <!-- ==================================== -->
+      <article id="lesson_contents" class="article_contents">
+        <h2>〈学習課題〉確率変数の和と平均</h2>
+        <ol>
+          <li>\(X\)と\(Y\)の平均値、標準偏差を使って、その和あるいは平均である\(Z\)の平均値と標準偏差を計算してみましょう。シミュレーションで生成されたローデータを使って、計算通りになっているか確かめましょう。（多くの教科書では、確率変数の和あるいは平均の<u>「分散」</u>の計算方法が記載されています。これに対して、本サイトで提供している情報は<u>「標準偏差」</u>であることに注意してください。）</li>
+          <li>このシミュレーションでは、2つの確率変数の和と平均しか計算できません。3つの場合はどうなるでしょうか。4つではどうでしょうか。Rでシミュレーションしてみましょう。</li>
+        </ol>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>設定と実行</h2>
+        <div id="settings">
+          <p class="user_setting">
+            <strong>確率分布</strong>：
+            <select id="select_dist" style="width:7rem;">
+              <option value="0">正規分布</option>
+              <option value="1">カイ二乗分布</option>
+<!--              <option value="2">t分布</option>
+              <option value="3">一様分布</option>-->
+            </select>
+            <!-- 確率分布ごとに設定できるパラメータが違う -->
+            <span class="paraset" id="para_0">平均\(\mu\)=<input id="norm_mu" class="number" type="number" value="0" min="-5" max="5" step="1"/><span id="norm_mu_interval"></span>&nbsp;標準偏差\(\sigma\)=<input id="norm_sigma" class="number" type="number" value="1" min="0.1" max="5" step="0.1" /><span id="norm_sigma_interval"></span></span>
+            <span class="paraset" id="para_1">自由度df=<input id="chisq_df" class="number" type="number" value="1" min="1" max="10" step="1"/><span id="chisq_df_interval"></span></span><br />
+            <span style="display:inline-block; margin-top:0.5rem">この分布にしたがう確率変数2個の</span><label id="radio_label_0"><input class="radio sorm" type="radio" name="sorm" value="0">合計を考える</label><label id="radio_label_1"><input class="radio sorm" type="radio" name="sorm" value="1">平均を考える</label><br />
+          <p class="user_setting">
+            <strong>横軸表示範囲</strong>：最小値<span id="inter_min_ref"></span><input id="inter_min" class="number cv_inter" type="number" value="-5" step="1"/>&nbsp;最大値<span id="inter_max_ref"></span><input id="inter_max" class="number cv_inter" type="number" value="5" step="1"/>（範囲を十分に広くとってください）&nbsp;<!--<label><input type="checkbox">グラフ最適化</input></label>-->
+          </p>
+          <p style="margin-top:0.5rem;">
+            <input class="button" id="btn_onetime" type="button" value="乱数を1つ生成" disabled />&nbsp;または&nbsp;
+            <input class="button" id="btn_start" type="button" value="乱数を連続生成" disabled />
+            繰り返し回数
+            <input class="number" id="trial_number" type="number" value="500" min="500" max="5000" step="100" /><span id="trial_number_interval"></span>
+            <input class="button" id="btn_reset" type="button" value="リセット" />
+          </p>
+        </div>
+      </article>
+      <div id="p5">
+        <script src="lib/myRvPlotter.js"></script>
+        <script src="lib/myHistgram.js"></script>
+        <script src="lib/myDistFunction.js"></script>
+        <script src="scripts/sum_of_rv.js"></script>
+        <script src="js/contents.js"></script>
+      </div>
+      <div id="download" style="display:none;">
+        <p>ボタンをクリックすると、各種データのダウンロードができます。</p><p>
+        <input class="button data_download" type="button" id="raw_data" value="ローデータ" />&nbsp;
+        <input class="button data_download" type="button" id="stats_data" value="統計データ" />&nbsp;
+        <input class="button data_download" type="button" id="script" value="R スクリプト" /></p>
+      </div>
+    </main>
+  </body>
+</html>
+

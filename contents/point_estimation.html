@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>推測統計</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== クリップボードライブラリ ===== -->
+    <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
+  <!-- ===== jStat ライブラリ ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/jStat@1.8.6/dist/jstat.min.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+  <!-- ===== 自作ライブラリ ===== -->
+    <script src="js/contents.js"></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/contents_style.css">
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>【推測統計】母平均の点推定</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="lesson">学習課題</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2>〈解説〉点推定 point estimation</h2>
+        <h3>点推定</h3>
+        <p>母平均を直接調査することはほぼ不可能なので、少数の標本データをもとに、母平均を推定します。このとき、<strong>標本平均を母平均の推定値とすることを<u>点推定</u>といいます</strong>。ただし、標本は母集団のごく一部ですから、点推定はほぼ必ず間違えます。つまり、たまたま運よく、標本平均が母平均にきわめて近い値になることはありますが、ぴたりと一致することはありません。</p>
+        <h3>一致性・不偏性</h3>
+        <p>標本サイズが大きくなるほど、標本平均は、より母平均に近い値をとりやすくなります。このような性質を<u>一致性</u>といいます。また、標本平均の期待値は、母平均と一致します。このような性質を<u>不偏性</u>といいます。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2>〈使用方法〉点推定はかならず失敗するか</h2>
+        <h3>分布パラメータと標本サイズの指定</h3>
+        <p>正規分布のパラメータ（平均、標準偏差）、および、標本サイズを指定します。初期値は、平均\(\mu=0\)、標準偏差\(\sigma=1\)、標本サイズ\(n=10\)です。</p>
+        <h3>許容範囲の指定</h3>
+        <p>抽出された標本の平均値\(\bar x = \frac1n \sum x_i\)と、母平均とのずれをどの程度まで許容するかを指定します。初期値は0.01で、\(|\bar x - \mu|\lt 0.01\)のとき、点推定が成功したと考えます。</p>
+        <h3>繰り返し回数の指定と的中回数の予想</h3>
+        <p>指定した条件で何回シミュレーションを繰り返すかを指定し、そのうち何回的中するかを予想します。</p>
+        <p>所要時間は、繰り返し回数1000で約70秒です（Windows10, Core i7, Chrome 124 で測定。ご利用の環境に依存します）。
+      </article>
+    <!-- ==================================== -->
+      <article id="lesson_contents" class="article_contents">
+        <h2>〈学習課題〉点推定とその許容範囲</h2>
+        <ol>
+          <li>乱数データのプロット（グレーの小さい点）よりも、その平均値のプロット（赤い点）のほうが、値のばらつきが小さい（プロットの範囲が狭い）のはなぜですか。正規分布の再生性をつかって説明してみましょう。</li>
+          <li>許容範囲の値を一定（たとえば0.01）にして、標本サイズが小さいとき（たとえば\(n=3\)）と、やや大きいとき（たとえば\(n=30\)）とで、平均値が許容範囲内である確率はどう変わるか試してみましょう。また、そのようになる理由を説明してみましょう。</li>
+          <li>繰り返し回数の95％くらい「成功」させるためには、許容範囲をどのくらいの値にすればいいでしょうか。また、その許容範囲の値は、標準偏差や標本サイズの値をもちいて計算できないでしょうか。考えてみましょう。</li>
+          <li>ローデータを使って、各試行ごとの標本平均をもとめ、母平均との差がどれくらいになるかを計算してみましょう。そして、許容範囲内にある試行が何回あったかを数え、画面表示された結果と整合することを確かめましょう。</li>
+          <li>ローデータをつかって、乱数データの分散が母分散とどれくらい一致するかをみてみましょう。1回ごとの試行について分散を計算し、それをヒストグラムに表します。標本分散と不偏分散では、ヒストグラムの形状がどのくらい異なるかも試してみましょう。</li>
+        </ol>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>設定と実行</h2>
+        <div id="settings">
+          <p class="user_setting">
+            平均値\(\mu=\)
+            <input class="number" id="user_mu" type="number" value="0" min="-10" max="20" step="0.1" /> &nbsp;
+            標準偏差\(\sigma=\)
+            <input class="number" id="user_sigma" type="number" value="1" min="0.1" max="10" step="0.1" /> &nbsp;
+            標本サイズ\(n=\)
+            <input class="number" id="user_sample_size" type="number" value="10" min="2" max="50" step="1" /><br />
+            許容範囲
+            <input class="number" id="user_difference" type="number" value="0.01" min="0" max="10" step="0.01" /><small>（母平均と標本平均との差がこの値未満なら点推定は「成功」とみなす）</small><br />
+          </p><p>
+            繰り返し回数
+            <input class="number" id="trial_number" type="number" value="500" min="500" max="5000" step="100" /> &nbsp;
+            「成功」回数予想
+            <input class="number" id="success_number" type="number" value="0" min="0" max="100" step="1" /> 
+            <input class="button" id="btn_start" type="button" value="実行" />
+            <input class="button" id="btn_pause" type="button" disabled value="一時停止" />
+            <input class="button" id="btn_reset" type="button" value="リセット" />
+          </p>
+        </div>
+      </article>
+      <div id="p5">
+        <script src="scripts/point_estimation.js"></script>
+        <script src="lib/myRvPlotter.js"></script>
+        <script src="lib/myHistgram.js"></script>
+      </div>
+      <div id="download" style="display:none;">
+        <p>ボタンをクリックすると、各種データのダウンロードができます。</p><p>
+        <input class="button data_download" type="button" id="raw_data" value="ローデータ" />&nbsp;
+        <input class="button data_download" type="button" id="stats_data" value="統計データ" />&nbsp;
+        <input class="button data_download" type="button" id="script" value="R スクリプト" /></p>
+      </div>
+    </main>
+  </body>
+</html>
+

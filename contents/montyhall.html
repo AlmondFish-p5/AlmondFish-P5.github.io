@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>確率の問題</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+  <!-- ===== 自作ライブラリ ===== -->
+    <script src="lib/histgram.js" defer></script>
+    <script src="lib/descript_stat.js" defer></script>
+    <script src="js/contents.js"></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/contents_style.css">
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>【確率の問題】モンティホール問題</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="lesson">学習課題</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2>〈解説〉モンティホール問題とは</h2>
+        <p>モンティホール問題とは、次のような問題です。</p>
+        <p class="roundbox">ゲーム番組で、3つのドアから選べと言われたとする： 1つのドアの向こうには車があり、他のドアの向こうにはヤギがいる。あなたが1番のドアを選ぶと、ドアの向こうに何があるのかを知っている司会者が別のドア、例えば3番のドアを開ける。そしてホストはあなたにこう言う。選択を変えた方が有利ですか？（<a href="https://en.wikipedia.org/wiki/Monty_Hall_problem" target="_blank">Wikipedia 【Monty Hall Problem】</a> より。DeepLによる訳）</p>
+        <p>上記Wikipediaの解説ページでは、さまざまな方法でこの問題の説明がされています。ここではその中から、次の図を引用しておきます（Rick Block 作図。この図については<a href="https://commons.wikimedia.org/wiki/File:Monty_tree_door1.svg">https://commons.wikimedia.org/wiki/File:Monty_tree_door1.svg</a>を参照）。<strong>ゲーム参加者が、最初にDoor1を選んでいると仮定した図</strong>です。</p>
+        <p style="text-align:center;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Monty_tree_door1.svg/555px-Monty_tree_door1.svg.png?20080403164253" style="border:1px solid #000"></p>
+        <p>
+        <ol><li>車がDoor1にあった場合、ホストはDoor2またはDoor3を開けて、ヤギを見せます。それぞれの確率は\(\frac 13 \times \frac 12 = \frac16\)です（\(\frac13\)は車がDoor1にある確率、\(\frac12\)はホストがDoor2またはDoor3を開く確率）。しかし、<strong>ホストがどちらのドアを開けようとも、選択を変えたら車は当たりません。</strong>最初に選択したDoor1が当たりだからです。ホストがどちらのドアを開けるかは、当たりの確率に影響しません。</li>
+          <li>車がDoor2にあった場合、ホストはかならずDoor3を開けて、ヤギを見せます。ホストは参加者が最初に選んだドアをまだ開けるわけにはいきませんし、車があるDoor2を開けて見せるわけにもいきません。ホストに選択権はありません。つまり、<strong>選択を変えればかならず当たりです</strong>。</li>
+          <li>車がDoor3にあった場合、ホストはかならずDoor2を開けて、ヤギを見せます。Door2とDoor3が入れ替わっているだけで、さきほどと同じことが起きています。<strong>選択を変えればかならず当たりです</strong>。</li>
+        </ol>
+        <p>というわけで、問題は単純化されます。「司会者はかならずヤギのドアを開ける」、そして、「最初の選択をかならず変える（Switch）」という前提で、次のようになります。
+          <ul>
+            <li>当たりのドアを選ぶ（その確率は\(\frac13\)）→選択を変えるので、かならずハズレ。</li>
+            <li>ハズレのドアを選ぶ（その確率は\(\frac23\)）→選択を変えるので、かならず当たり。</li>
+          </ul>
+        </p>
+        <p>「最初の選択をぜったいに変えない（Stay）」場合は、次のようになります。
+          <ul>
+            <li>当たりのドアを選ぶ（その確率は\(\frac13\)）→選択を変えないので、当たる。</li>
+            <li>ハズレのドアを選ぶ（その確率は\(\frac23\)）→選択を変えないので、ハズレ。</li>
+          </ul>
+        </p>
+        <p class="roundbox" style="border-color:#999; font-size:0.9rem;">と、知ったかぶりをして解説してきましたが、私はこの問題があまり好きではありません。これは確率の問題です。確率の定義に踏み込むとやっかいなのでしませんが、たとえばコインの表が出る確率は0.5、というとき、「無限回コインを投げ続けたら、表が出る確率は0.5に収束していくんだろうなあ」というイメージでとらえることができます。コインだったら、何回も試すことは簡単ですし、「回数が少ないからこれくらい偏るのは仕方ないねえ」という納得もしやすい感じがします。でも、モンティホール問題を何度も試せますか？ というか、こういう場面に遭遇することは、一生に一回しかないだろうな（多くの人にとっては一回もないだろうな）、と私は思います。実際に、自分がそういう場面にたったときを具体的に想像すると、とてもじゃないけれど、「変えたほうが有利」とか思えません。そんな冷静な判断をする自信はこれっぽっちもない。純粋に数学の問題として考えれば、このページで提供しているようなシミュレーションで考えてみるのもありでしょう。でも、現実の場面をつい考えてしまう場面では、「よし、Door2がハズレだとわかったぞ。あとはDoor1とDoor3のどっちかが当たりだ。どっちかなあ…う～ん、う～～ん」と、二者択一で頭を抱えてしまう自信が、私にはあります。というわけで、「とても確率の問題として冷静に考えられない。だからキライ！」というのが本心です。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2>〈使用方法〉</h2>
+        <h3>表示内容</h3>
+        <p><span class="term">ドア</span>&nbsp;3つのドアのどれかが当たりです。&nbsp;<span class="term">選択1</span>&nbsp;参加者がどのドアを選んだかを言います。&nbsp;<span class="term">司会者</span>&nbsp;司会者がハズレのドアを1つ教えます。&nbsp;<span class="term">選択2</span>&nbsp;参加者は最後の選択をし、どのドアにするかを言います（ファイナルアンサー！）。&nbsp;<span class="term">結果</span>&nbsp;結果が表示されます。</p>
+        <h3>低速／高速モード</h3>
+        <p>最初は【低速モード】で試し、画面の見方を理解してください（<span class="button">一時停止</span>ボタンも使ってね）。</p><p>画面の見方がわかったら、<span class="button">リセット</span>ボタンをおしてから【高速モード】で試してください。シミュレーションが終わると、結果を表示し、ローデータを提供します。</p>
+        <p>所要時間は、繰り返し回数1000で約70秒です（Windows10, Core i7, Chrome 124 で測定。ご利用の環境に依存します）。
+      </article>
+    <!-- ==================================== -->
+      <article id="lesson_contents" class="article_contents">
+        <h2>〈学習課題〉</h2>
+        <ol>
+          <li>参加者が最初の選択を変更する方が、当たりの確率が高いことを、ご自分のことばで説明してください。</li>
+          <li>ローデータを使って、選択を変えなかった時の当たりの確率、選択を変えたときの当たりの確率を計算し、画面に表示される結果と一致することを確かめてください。</li>
+          <li>「選択を変えるかどうか」と「当たったかどうか」は関連しています。が、その他のデータは無関連であると考えられます。ローデータを使って、当たりのドアの位置によって当たりやすさは違わないこと、参加者の最初に（あるいは最後に）選んだドアの位置によって当たりやすさは違わないことなどを確かめてください。</li>
+        </ol>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>設定と実行</h2>
+        <div id="settings">
+          <p style="margin-bottom:0.5rem">シミュレーション
+            <label id="sim_type_0"><input type="radio" class="radio" name="sim-mode" value="0">低速モード</label>
+            <label id="sim_type_1"><input type="radio" class="radio" name="sim-mode" value="1">高速モード</label>
+          </p>
+          <p>
+            繰り返し回数
+            <input class="number" id="trial_number" type="number" value="500" min="500" max="5000" step="100" /> 
+            <input class="button" id="btn_start" type="button" value="実行" />
+            <input class="button" id="btn_pause" type="button" value="一時停止" />
+            <input class="button" id="btn_reset" type="button" value="リセット" />
+          </p>
+        </div>
+      </article>
+      <div id="p5">
+        <script src="scripts/MontyHallProblem.js"></script>
+      </div>
+      <div id="download" style="display:none;">
+        <p>ボタンをクリックすると、各種データのダウンロードができます。</p><p>
+        <input class="button data_download" type="button" id="raw_data" value="ローデータ" />&nbsp;
+        <input class="button data_download" type="button" id="stats_data" value="統計データ" />&nbsp;
+        <input class="button data_download" type="button" id="script" value="R スクリプト" /></p>
+      </div>
+    </main>
+  </body>
+</html>
+

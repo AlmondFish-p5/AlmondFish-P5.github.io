@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>調査・実験計画</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+  <!-- ===== 自作ライブラリ ===== -->
+    <script src="lib/histgram.js" defer></script>
+    <script src="lib/descript_stat.js" defer></script>
+    <script src="js/contents.js"></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/contents_style.css">
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>【調査・実験計画】サンプリング体験（１）</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="lesson">学習課題</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2>〈解説〉標本調査</h2>
+        <h3>全数調査・標本調査</h3>
+        <p>母集団の特徴を調べるのに、母集団全体に対して調査を行う「全数調査」に対して、母集団の一部を抽出して調査し、その結果をもとに母集団の特徴を推測する方法を「標本調査」といいます。ここでは、小規模な母集団から標本を抽出して分析する、という一連の作業体験をお手伝いします。</p>
+        <h3>母集団</h3>
+        <p>キャンバス全体に配置されたドットが、母集団を構成する個体を表しています。ドットの見かけ（大きさ、位置、色など）は、個体の持っている値とは無関係です。母集団のタイプを「標準＝偏りなし」「やや偏りあり」「かなり偏りあり」から選択できます。</p>
+        <h3>標本・標本サイズ</h3>
+        <p>マウスカーソルの周辺に、背景の明るい部分が描かれます。この位置にある個体が、標本として選ばれます。標本に含まれる個体数を標本サイズといいます。実際に標本として抽出されるまで、その個体の持っている値はわかりません。また、それぞれの個体は、隣接する個体と何らかの関係をもっているわけではありません。
+        <p>母集団サイズが小さいので、本来であれば有限修正が必要ですが、煩雑になるのを避けるため、行っておりません。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2>〈使用方法〉標本抽出</h2>
+        <h3>母集団サイズの指定</h3>
+        <p>母集団サイズの初期値は3000です。数値の示されているボックスをクリックすると、母集団サイズを選択できます。最大母集団サイズは10000です。</p>
+        <h3>標本サイズの指定</h3>
+        <p>標本サイズを、画面上のたて横のサイズで指定します。最小は3×3、最大は10×15です。母集団の約何％を抽出しているかを、その右に表示しています。</p>
+        <h3>標本抽出</h3>
+        <p>指定が終わったら、<span class="button">サンプリング</span>を押します。個体がぷるぷると動きます。マウスを適当な位置に動かしてクリックするとサンプリング（標本抽出）が行われ、結果が表示されます。（抽出位置の描画が追いつかないので、ゆっくり操作してください。母集団サイズが大きいほど遅れがひどいです）</p>
+        <h3>調査内容</h3>
+        <p>調査内容（それぞれの個体が答えてくれること）は次の4点です。放送大学で統計を学ぶ学生に対する調査をイメージした架空のデータです。
+        <ol><li>大学院進学を希望するか[1:はい、0:いいえ]</li><li>数学は好きか[1:大嫌い～5:大好き]</li><li>統計テストの成績[0～100点]</li></ol></p>
+      </article>
+    <!-- ==================================== -->
+      <article id="lesson_contents" class="article_contents">
+        <h2>〈学習課題〉推測統計を体験する</h2>
+        <ol>
+          <li>母集団サイズと標本サイズを好きな値に指定して、サンプリングを体験してみましょう。ローデータをつかって、都市部在住の割合や、統計テストの成績が、母集団ではどのような値になるかを、標本統計量をもとに予想してみましょう。</li>
+          <li>母集団パラメータは、母集団タイプによって固定されています。母集団サイズを一定にして、標本サイズを変えたとき（たとえばn=9とn=100）、推測の精度がどのように変わるか試してみましょう。</li>
+        </ol>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>設定と実行</h2>
+        <div id="settings">
+          <p class="user_setting">母集団サイズ
+            <select id="population_size">
+              <option value="1000">1000</option>
+              <option value="2000">2000</option>
+              <option value="3000" selected>3000</option>
+              <option value="4000">4000</option>
+              <option value="5000">5000</option>
+              <option value="6000">6000</option>
+              <option value="7000">7000</option>
+              <option value="8000">8000</option>
+              <option value="9000">9000</option>
+              <option value="10000">10000</option>
+            </select> &nbsp;
+          母集団タイプ
+            <select id="population_type" style="width:10rem">
+              <option value="a">標準（偏りなし）</option>
+              <option value="b">やや偏りあり</option>
+              <option value="c">かなり偏りあり</option>
+            </select><br />
+          標本サイズ（選択範囲の大きさを指定）：たて
+            <input id="sample_height" class="number sample_size" type="number" step="1" value="5" min="3" max="10"></input>
+            ×横
+            <input id="sample_width" class="number sample_size" type="number" step="1" value="5" min="3" max="15"></input><span id="smp_about"></span>
+          </p>
+          <p>
+            <input class="button" id="btn_start" type="button" value="サンプリング" />
+            <input class="button" id="btn_reset" type="button" value="リセット" />
+          </p>
+        </div>
+      </article>
+      <div id="p5">
+        <script src="scripts/sampling_simple.js"></script>
+      </div>
+      <div id="download" style="display:none;">
+        <p>ボタンをクリックすると、各種データのダウンロードができます。</p><p>
+        <input class="button data_download" type="button" id="raw_data" value="ローデータ" />&nbsp;
+        <input class="button data_download" type="button" id="stats_data" value="統計データ" />&nbsp;
+        <input class="button data_download" type="button" id="script" value="R スクリプト" /></p>
+      </div>
+    </main>
+  </body>
+</html>
+

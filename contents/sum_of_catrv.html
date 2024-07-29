@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>確率変数と確率分布</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== jStat ライブラリ ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/jStat@1.8.6/dist/jstat.min.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+  <!-- ===== 自作ライブラリ ===== -->
+    <script src="lib/histgram.js" defer></script>
+    <script src="lib/descript_stat.js" defer></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/contents_style.css">
+    <style>
+      p.dist_settig {
+        border-left: 20px solid #999;
+        background-color: #f0f0f0;
+        padding: 0.2rem 0 0.2rem 0.5rem;
+        margin: 0.5rem 0:
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>【確率変数と確率分布】離散的確率変数の和</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="lesson">学習課題</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2>〈解説〉確率変数を足すということ</h2>
+        <h3>確率変数</h3>
+        <p>確率変数とは、ランダムに値が決まる変数のことです。ただし、値の決まり方に確率的な法則があると仮定されています。この法則のことを確率分布といいます。離散的確率分布には、ベルヌーイ分布、二項分布などがあります。</p>
+        <h3>確率変数を「足す」</h3>
+        <p>コインの表を1、ウラを0とし、投げたときの値を確率変数\(X\)で表すと、\(X\)はベルヌーイ分布にしたがいます。公正なコインの場合、1が出る確率は0.5です。確率変数を足すとは、このコインを2回連続で投げたときの値を考えることです。表が2回連続で出たら2、ウラが2回連続で出たら0、1回ずつなら1です。多くの教科書が、このような問題を確率の計算によって説明していますが、<strong>本サイトではあえてシミュレーションを行います。そうしたほうが、連続型確率変数の和を考えるという課題を理解しやすいと考えています。</strong></p>
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2>〈使用方法〉</h2>
+        <h3>確率分布</h3>
+        <p>確率分布は、コイン（ベルヌーイ分布）とサイコロ（多項分布）から選択します。コインを選ぶと、表の出る確率（ベルヌーイ分布における成功確率）を0.1～0.9まで選択できます。</p>
+        <h3>乱数の生成</h3>
+        <p>コイン（サイコロ）を2回投げたときの実現値（A、Bとする）を乱数で生成します。その和（A+B）を、新しい確率変数の実現値とします。<span class="button">乱数を1つ生成</span>をクリックするごとに、1組の乱数を生成します。実現値の世界で、AとBの和の値を確かめてください。シミュレーションのしくみを理解したら、繰り返し回数を指定して<span class="button">乱数を連続生成</span>してくだい。</p>
+        <p>所要時間は、繰り返し回数1000で約70秒です（Windows10, Core i7, Chrome 124 で測定。ご利用の環境に依存します）。
+      </article>
+    <!-- ==================================== -->
+      <article id="lesson_contents" class="article_contents">
+        <h2>〈学習課題〉離散型確率変数の和</h2>
+        <ol>
+          <li>シミュレーションを行うと、それぞれのコイン（サイコロ）の実現値、および2つのコイン（サイコロ）の実現値の和のヒストグラムが出来上がります。3つのヒストグラムのうち、実現値の和のヒストグラムだけ形状が異なるのはなぜでしょう。</li>
+          <li>統計学にあまり興味のない友人がこれを見て、AのグラフとBのグラフを足しているのに、A+Bのグラフがこんな形になるのはおかしい！といっています。AもBも、棒が2本のグラフなのだから、A+Bも、棒が2本だけになるはずだというのです。この友人は何を理解していないと考えられますか。あなたなら、どのように説明して、誤解をときますか。</li>
+          <li>離散型確率変数の和を考えることと、連続型確率変数の和を考えることの共通点はなんでしょう。連続型確率変数の和を学習した後に、もう一度ここにもどってきて、考えてください。</li>
+        </ol>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>設定と実行</h2>
+        <div id="settings">
+          <p class="dist_settig">
+            <strong>確率分布</strong>：
+            <select id="select_dist" style="width:7rem;">
+              <option value="0">コイン</option>
+              <option value="1">サイコロ</option>
+            </select>
+            <!-- 確率分布ごとに設定できるパラメータが違う -->
+            <span class="paraset" id="para_0">表の出る確率\(p\)=<input id="coin_p" class="number" type="number" value="0.5" min="0.1" max="0.9" step="0.1"/><span id="coin_p_interval"></span>コインを2回投げ、表の枚数を考えます。</span>
+            <span class="paraset" id="para_1">サイコロを2回投げ、目の合計を考えます。</span>
+          </p>
+          <p style="margin-top:0.5rem;">
+            <input class="button" id="btn_onetime" type="button" value="乱数を1つ生成" />&nbsp;または&nbsp;
+            <input class="button" id="btn_start" type="button" value="乱数を連続生成" />
+            繰り返し回数
+            <input class="number" id="trial_number" type="number" value="500" min="500" max="5000" step="100" /><span id="trial_number_interval"></span>
+            <input class="button" id="btn_reset" type="button" value="リセット" />
+          </p>
+        </div>
+      </article>
+      <div id="p5">
+        <script src="lib/myCatPlotter.js"></script>
+        <script src="scripts/sum_of_catrv.js"></script>
+        <script src="js/contents.js"></script>
+      </div>
+      <div id="download" style="display:none;">
+        <p>ボタンをクリックすると、各種データのダウンロードができます。</p><p>
+        <input class="button data_download" type="button" id="raw_data" value="ローデータ" />&nbsp;
+        <input class="button data_download" type="button" id="stats_data" value="統計データ" />&nbsp;
+        <input class="button data_download" type="button" id="script" value="R スクリプト" /></p>
+      </div>
+    </main>
+  </body>
+</html>
+

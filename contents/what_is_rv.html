@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>確率変数と確率分布</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== jStat ライブラリ ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/jStat@1.8.6/dist/jstat.min.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/contents_style.css">
+    </style>
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>【確率変数と確率分布】確率変数の性質</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="lesson">学習課題</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2>〈解説〉確率変数の性質</h2>
+        <h3>確率変数</h3>
+        <p>確率変数とは、ランダムに値が決まる変数のことです。ただし、値の決まり方に確率的な法則を仮定しています。この法則のことを確率分布といいます。</p>
+        <h3>確率分布</h3>
+        <p>確率分布とは、確率変数の値の決まり方についての法則です。<br />例1：（離散一様分布）サイコロをふったときの目の数を確率変数と考えると、1～6がどれも同じ確率で出ると考えられます。ただし、0や7は出ませんし、1.5や2.4なども出ません。<br />例2：（正規分布）高校3年生の生徒の身長を確率変数と考えると、高校3年生の生徒をランダムに選んだ時、160や165くらいの値は出やすいですが、130や200といった値はあまり出ないだろうと思われます。<br />このように、<strong>値の出やすさを確率で表現したものが確率分布</strong>です。</p>
+        <h3>確率分布の可視化</h3>
+        <p>確率分布を表した数式や、確率分布を可視化したグラフが、統計学の教科書にのっています。本サイトでは、確率分布で仮定された「値の出やすさ」にしたがって乱数をたくさん発生させ、その乱数のヒストグラムを描くことで、確率分布を可視化します。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2>〈使用方法〉</h2>
+        <h3>確率分布の選択</h3>
+        <p>確率分布を、ベルヌーイ分布（コイン）、二項分布（2回以上のコイン投げ）、正規分布、一様分布から選びます。分布を選ぶと、パラメータについての説明が表示され、パラメータを設定することができ、乱数の生成ができるようになります。</p>
+        <h3>グラフ最適化</h3>
+        <p>正規分布、一様分布を選択したとき、グラフを最適化するかどうかを選択できます。初期状態は最適化OFFで、パラメータによる分布形状の変化が見やすくなります。最適化をONにすると、出現確率の高い部分がより見やすくなるように座標軸を自動で設定します。</p>
+        <h3>乱数の生成</h3>
+        <p>指定した確率分布とパラメータにしたがう確率変数を生成します。<span class="button">乱数を1つ生成</span>をクリックすると、実現値が1つ得られ、その時の値が表示されます。繰り返し回数を指定して<span class="button">乱数を連続生成</span>をクリックすると、指定した回数だけ乱数の生成を繰り返します。終了すると、ローデータを提供します。また、正規分布と一様分布を選択した場合、生成した乱数のヒストグラムを描きます。</p>
+
+        <p>所要時間は、繰り返し回数1000で約70秒です（Windows10, Core i7, Chrome 124 で測定。ご利用の環境に依存します）。
+      </article>
+    <!-- ==================================== -->
+      <article id="lesson_contents" class="article_contents">
+        <h2>〈学習課題〉確率変数の性質</h2>
+        <ol>
+          <li>分布をパラメータをさまざまに設定して、乱数を生成してみましょう。生成された乱数のヒストグラムが、表示されたグラフの形状に近いことを確かめましょう。（繰り返し回数2000以上がおすすめです）</li>
+          <li>乱数を1つだけ生成したときの実現値は、たまたま得られる値、いわばその瞬間の「確率変数の仮の姿」であって、その値が分布の中心に位置するとは限らないことを実感しましょう。</li>
+          <li>確率変数、確率分布について、自分の言葉で説明してみましょう。</li>
+        </ol>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>設定と実行</h2>
+        <div id="settings">
+          <p class="user_setting">
+            <strong>確率分布</strong>：
+            <select id="select_dist" style="width:10rem;">
+              <option value="-1" disabled selected>分布を選択</option>
+              <option value="0">ベルヌーイ分布</option>
+              <option value="1">二項分布</option>
+              <option value="2">正規分布</option>
+              <option value="3">一様分布</option>
+            </select></p>
+          <p id="select_dist_0" class="dist_setting" style="display:none;">成功確率(\(p\))を指定します。公正なコインの場合、成功確率は\(p=0.5\)です。<br />成功確率(\(p\))=<input id="dist_0_prob" class="number" type="number" value="0.5" min="0.1" max="0.9" step="0.1" /><span id="dist_0_prob_interval"></span></p>
+          <p id="select_dist_1" class="dist_setting" style="display:none;">試行回数(\(n\))と成功確率(\(p\))を指定します。3回連続で公正なコイン投げをしたときに表が出る枚数は、\(n=3,p=0.5\)の二項分布にしたがいます。<br />試行回数(\(n\))=<input id="dist_1_n" class="number" type="number" value="2" min="2" max="10" step="1" /><span id="dist_1_n_interval"></span>&nbsp;成功確率(\(p\))=<input id="dist_1_prob" class="number" type="number" value="0.5" min="0.1" max="0.9" step="0.1" /><span id="dist_1_prob_interval"></span></p>
+          <p id="select_dist_2" class="dist_setting" style="display:none;">平均値(\(\mu\))と標準偏差(\(\sigma\))を指定します。高校3年生男子の身長の場合、平均値は約170cm、標準偏差は約6cmです（令和3年度学校保健調査による）。平均値0、標準偏差1の正規分布を、特に「標準正規分布」といいます。<br />平均値(\(\mu\))=<input id="dist_2_mu" class="number" type="number" value="0" min="-2" max="2" step="0.1" /><span id="dist_2_mu_interval"></span>&nbsp;標準偏差(\(\sigma\))=<input id="dist_2_sigma" class="number" type="number" min="0.6" max="2.0" value="1" step="0.1" /><span id="dist_2_sigma_interval"></span></span><label class="label graph_opt">&nbsp;<input class="check opt" type="checkbox" />グラフ最適化</label></p>
+          <p id="select_dist_3" class="dist_setting" style="display:none;">最小値と最大値を指定します。最小値以上、最大値未満の値は、等確率で出ると期待されます。<br />最小値(min)=<input id="dist_3_min" class="number" type="number" value="-3" min="-3" max="0" step="1" /><span id="dist_3_min_interval"></span>&nbsp;最大値(max)=<input id="dist_3_max" class="number" type="number" value="3" min="1" max="5" step="1" /><span id="dist_3_max_interval"></span>&nbsp;<label class="label graph_opt"><input class="check opt" type="checkbox" />グラフ最適化</label></p>
+          </p>
+          <p style="margin-top:0.5rem;">
+            <input class="button" id="btn_onetime" type="button" value="乱数を1つ生成" disabled />&nbsp;または&nbsp;
+            <input class="button" id="btn_start" type="button" value="乱数を連続生成" disabled />
+            繰り返し回数
+            <input class="number" id="trial_number" type="number" value="500" min="500" max="5000" step="100" disabled /><span id="trial_number_interval"></span>
+            <input class="button" id="btn_reset" type="button" value="リセット" />
+          </p>
+        </div>
+      </article>
+      <div id="p5"><!-- ===== 自作ライブラリの読み込みはここで ===== -->
+        <script src="lib/myRvPlotter.js"></script>
+        <script src="lib/myCatPlotter.js"></script>
+        <script src="lib/myHistgram.js"></script>
+        <script src="lib/myDistFunction.js"></script>
+        <script src="scripts/what_is_rv.js"></script>
+        <script src="js/contents.js"></script>
+      </div>
+      <div id="download" style="display:none;">
+        <p>ボタンをクリックすると、各種データのダウンロードができます。</p><p>
+        <input class="button data_download" type="button" id="raw_data" value="ローデータ" />&nbsp;
+        <input class="button data_download" type="button" id="stats_data" value="統計データ" />&nbsp;
+        <input class="button data_download" type="button" id="script" value="R スクリプト" /></p>
+      </div>
+    </main>
+  </body>
+</html>
+

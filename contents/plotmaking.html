@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>さまざまな統計量</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== jStat ライブラリ ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/jStat@1.8.6/dist/jstat.min.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/contents_style.css">
+    <style>
+      p#coef_request {
+        background-color : #ffee99;
+        border-left-color : #ddcc66;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>【さまざまな統計量】プロット作成ゲーム</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="lesson">学習課題</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2>〈解説〉プロット作成ゲーム</h2>
+        <h3>2つの量的変数の関係</h3>
+        <p>対応のある2つの量的変数\(X\)と\(Y\)があるとき、2つの変数の間に<strong>直線的な関連</strong>があるかどうかを検討するために、相関係数を算出したり、回帰係数を算出したりします。しかし、データをプロットしたときの見た目と、相関係数や回帰係数（ましてやそのp値）とが、感覚と一致しない（\(r=0.25\)<sup>***</sup>ってこんなプロットなのか？ こんなんで、\(p\lt.01\)です！ 有意です！ って主張していいのか？）ことも多いかもしれません。このページでは、「プロットから相関係数や回帰係数を見つもる」という通常の思考を反転させて、「指定された相関係数にぴったりあうようにデータをプロットしてみる」ゲームをします。</p>
+        <h3>ルールは自分で設定しよう</h3>
+        <p>ゲームですが、ルールは「この相関係数になるようにデータプロットしてください」だけで、それ以外はほぼ自由です。ご自分で、あるいは仲間同士で、それらしいルールを設定して、プロットの見た目と相関係数は一致しないものだなあ、という感覚を楽しんでください。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2>〈使用方法〉プロット作成ゲーム</h2>
+        <h3>データ点の追加・削除</h3>
+        <p><span class="button">開始</span>をクリックすると、乱数で相関係数を選んで【課題】を提示します。指定された相関係数が得られるようなプロットをXY平面上に作成してください。</p>
+        <p>XY平面上をクリックすると、クリックした位置にデータ点が置かれます。ctrlキーを押しながらすでにあるデータ点をクリックすると、そのデータ点が削除されます。追加あるいは削除されたデータの情報と、現在のデータ点の数が右側に表示されます。データ点の数に制限はありません。</p>
+        <h3>答え合わせ</h3>
+        <p><span class="button">判定</span>をクリックすると、置かれたデータ点をもとに相関係数と回帰係数が算出されます。正誤判定はしていませんので、どの程度のずれであれば正解とするかはご自身でお考えください。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="lesson_contents" class="article_contents">
+        <h2>〈学習課題〉プロット作成ゲーム</h2>
+        <ol>
+          <li>このゲームで、指定された相関係数（回帰係数）にあうようにデータ点をプロットする「コツ」は何か見つかりましたか。それはどんな「コツ」ですか。また、その「コツ」は、今後のデータ分析に何か役に立つものでしたか。友だちや先生と話し合ってみましょう。</li>
+        </ol>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>予想と判定</h2>
+        <div id="settings">
+          <p class="user_setting">
+            指定された<strong>相関係数</strong>が得られるプロットを作成します。
+            <input class="button" id="btn_start" type="button" value="開始" />
+            <input class="button" id="btn_judge" type="button" value="判定" disabled/>
+            <input class="button" id="btn_reset" type="button" value="リセット" />
+            <p class="user_setting" id="coef_request" style="display:none;"></p>
+          </p>
+        </div>
+      </article>
+      <div id="p5"><!-- ===== 自作ライブラリの読み込みはここで ===== -->
+        <script src="scripts/plotmaking.js"></script>
+        <script src="js/contents.js"></script>
+      </div>
+      <div id="download" style="display:none;">
+        <p>ボタンをクリックすると、各種データのダウンロードができます。</p><p>
+        <input class="button data_download" type="button" id="raw_data" value="ローデータ" />&nbsp;
+        <input class="button data_download" type="button" id="stats_data" value="統計データ" />&nbsp;
+        <input class="button data_download" type="button" id="script" value="R スクリプト" /></p>
+      </div>
+    </main>
+  </body>
+</html>
+

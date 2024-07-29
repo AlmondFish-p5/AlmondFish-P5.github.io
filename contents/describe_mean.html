@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>記述統計</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== クリップボードライブラリ ===== -->
+    <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+  <!-- ===== 自作ライブラリ ===== -->
+    <script src="lib/histgram.js" defer></script>
+    <script src="lib/descript_stat.js" defer></script>
+    <script src="js/contents.js"></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/contents_style.css">
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>【記述統計】平均値を予測する</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="lesson">学習課題</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2>〈解説〉平均値と偏差、平方和、分散</h2>
+        <h3>平均値</h3>
+        <p>データを数直線上にプロットしたときの、重心の位置にあたる値が<span class="term">平均値</span>です。数直線を重さのないてんびん棒、データを重さ1のおもりと考えたとき、てんびんがつり合う位置が平均値です。</p>
+        <h3>偏差</h3>
+        <p>データから<u>ある定数</u>を引いた値を<span class="term">偏差</span>といいます。通常は平均値を引いた値を指します。<span class="red">平均より小さいデータの偏差（負の偏差）</span>の絶対値の総和と、<span class="blue">平均より大きいデータの偏差（正の偏差）</span>の絶対値の総和は等しくなり、足し合わせると0になります。</p>
+        <h3>分散</h3>
+        <p>偏差を二乗して総和をとった値を<span class="term">偏差平方和（偏差二乗和）</span>といいます。偏差を計算するときの<u>ある定数</u>をデータの平均値にすると、偏差二乗和は最小の値をとります。平均値からの偏差二乗和をデータ数（自由度）で割った値が<span class="term">分散</span>で、分散が小さいほど、データが平均値のまわりに密集しており、分散が大きいほど、データが平均値から離れて散らばっていることを意味する指標です。</p>
+        <h3>直感と計算とのずれを体感する</h3>
+        <p>このシミュレーションでは、プロットの配置だけをたよりに、平均値の位置を探します。データが左右対称でない場合、平均の位置は直感と大きく異なる場合があります。直感に頼らず、偏差の和や偏差二乗の値に注目して、正しい平均値の位置を探してください。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2>〈使用方法〉仮平均を示す緑線を正しい位置に動かそう</h2>
+        <p>黒い●でデータがプロットされています。データの平均値を予想し、仮平均値の位置を示す緑色の縦線を、正しい平均値の位置に動かしてください。動かし方は、次の2つの方法があります。</p>
+        <ol>
+          <li><span style="background-color:#2e9">緑色のバー</span>
+          をクリックすると、クリックした位置に移動します。
+        </li>
+          <li><span style="background-color:#2b6; color:white">＜</span>、
+          <span style="background-color:#2b6; color:white">＞</span>をクリックすると、少しだけ左右に移動します。</li>
+        </ol>
+        <p><span class="button"> 観察モード </span>：仮平均値が自動的に変化します。偏差や偏差平方の和の変化を観察しよう。</p>
+        <p><span class="button"> 答え合わせ </span>：正しい重心＝平均値の位置を赤い線で表示します。</p>
+        <p>なお、データの値はあえて表示していません。プロットの配置だけをたよりに平均値＝重心を予想してみてください。
+        </p>
+      </article>
+    <!-- ==================================== -->
+      <article id="lesson_contents" class="article_contents">
+        <h2>〈学習課題〉偏差の総和、偏差二乗和の変化のしかたに法則はあるか</h2>
+        <ol>
+          <li>答え合わせ後に表示されるローデータを用いて、仮平均値が変化すると、偏差の総和がどのように変化するかを計算してみてください。変化のしかたに、どんな法則があるかを考えてみましょう。</li>
+          <li>ローデータを用いて、仮平均値が変化すると、偏差二乗和がどのように変化するかを計算してみてください。こちらは、変化のしかたに、どんな法則があるでしょう。</li>
+          <li>ここには示していませんが、偏差の絶対値の平均（\(\frac1n \sum |x_i-\bar x|\)）を、データの散布度の指標にするという考え方もあります。仮平均値が変化すると、偏差絶対値の平均はどのように変化するでしょう。何か法則は見つかるでしょうか。</li>
+        </ol>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>設定と実行</h2>
+        <div id="settings">
+        データ数：
+        <input id="sample_size" type="number" class="number" value="8" min="3" max="20" />
+        <input id="btn_scan" type="button" class="button" value="観察モード" />
+        <input id="btn_judge" type="button" class="button" value="答え合わせ" />
+        </div>
+      </article>
+      <div id="p5">
+        <script src="scripts/describe_mean.js" type="text/javascript"></script>
+      </div>
+      <div id="result">
+      </div>
+      <div id="rawdata">
+      </div>
+    </main>
+  </body>
+</html>

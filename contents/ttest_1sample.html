@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>推測統計</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== jStat ライブラリ ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/jStat@1.8.6/dist/jstat.min.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/contents_style.css">
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>【帰無仮説検定】第一種過誤確率：一標本t検定</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="lesson">学習課題</li>
+        <li class="main_menu" id="note">雑記帳</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2>〈解説〉第一種の過誤</h2>
+        <h3>第一種の過誤とは「生産者危険」</h3>
+        <p>第一種の過誤とは、帰無仮説が正しいのに棄却してしまう誤りのことです。工場で1つ200gの製品を作っているとして、無作為にサンプルを抽出すれば、平均値は200gになるはずです。このとき、誤って帰無仮説を棄却してしまうと（<small>つまり、製品は平均200gとはいえないから、出荷してはいけない、と誤った判断をすると</small>）、規格通りに正しく生産された製品が出荷できず、生産者の損失となります。つまり、「生産者」にとっての「危険」なのです。</p>
+        <h3>帰無仮説が正しい状況でのシミュレーション</h3>
+        <p>ここでは、乱数データをもちいて「標本平均値は母平均と等しい」という帰無仮説を検定します。たとえば、正規分布にしたがう母集団（\(\mu=0,\sigma=1\)）からデータを抽出して、標本平均を計算すれば、当然、標本平均は\(\bar x=0\)に近い値になりそうです。が、母集団にはさまざまな個体がありますから、データをとるたびに標本平均もばらつきます。結果、20回に1回くらいは、検定結果が\(p\lt.05\)となり、「母平均は0とはいえないようだ」という判断をすることになるのです。本当でしょうか？試してみましょう。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2>〈使用方法〉第一種の過誤</h2>
+        <h3>母集団パラメータの設定</h3>
+        <p>母集団は正規分布であると仮定します。<span class="term">母平均</span>と<span class="term">母標準偏差</span>を、任意の値に設定してください。初期値は\(\mu=0,\sigma=1\)です。とくに理由がなければ、初期値のまま実行しましょう。</p>
+        <h3>標本サイズの設定</h3>
+        <p>母集団から抽出する<span class="term">標本サイズ</span>を指定します。標本を抽出するごとに平均値を計算し、「標本平均は母平均と等しい」という帰無仮説を検定します（一標本t検定）。画面には、<strong>標本平均値、t値、p値</strong>を、<a href="../about/about_plot.html" target="_blank">線香花火プロットおよびバーコードプロット</a>で表示します。</p>
+        <h3>繰り返し回数の設定</h3>
+        <p>上記の「標本抽出～t検定」を何回シミュレーションするかを設定します。回数が少ないと結果が大きくばらつくことがあるので、1000回くらいで試して要領がつかめたら、5000～10000回くらいで実行してください。</p>
+        <p>所要時間は、繰り返し回数1000で約70秒です（Windows10, Core i7, Chrome 124 で測定。ご利用の環境に依存します）。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="lesson_contents" class="article_contents">
+        <h2>〈学習課題〉第一種の過誤</h2>
+        <ol>
+          <li>第一種の過誤の確率は、標本サイズが小さい時（n=4など）と、やや大きい時（n=20など）では、違いがあると思いますか、ないと思いますか。なぜそのように考えますか。予想して、友だちや先生と話し合ってから実験してみましょう。</li>
+          <li>画面に、t検定のt値の分布が示されていますが、これは何か名前のついた分布にしたがっているのでしょうか。だとしたら、その分布名は何でしょうか。データをダウンロードしてヒストグラムを描き、確率密度曲線を重ね描きして確かめてみましょう。</li>
+          <li>母集団分布がt分布や一様分布のときには、どんな結果になるでしょうか。Rをつかって、自分でスクリプトを書いて実験してみましょう。</li>
+        </ol>
+      </article>
+    <!-- ==================================== -->
+      <article id="note_contents" class="article_contents">
+        <h2>〈雑記帳〉第一種の過誤の確率をシミュレーションする</h2>
+        <p>このシミュレーションは、「数値シミュレーションで読み解く統計のしくみ」第5章をもとに作成しています。第一種の過誤については、以下のように説明されています。</p>
+        <p class="quote">心理学では帰無仮説を誤って棄却してしまう確率であるタイプIエラー確率を5％以下にするように設計します。この「許容されるタイプIエラー確率」のことを<strong>有意水準</strong>（significant level）と呼び、\(\alpha\)と表記します。（前掲書, p.311, 太字は著者）</p>
+        <p>前掲書では、もっとも基本的な検定として「対応のないt検定」が取り上げられています。これに直接対応したシミュレーションは別ページで紹介します（作成中...）。このページで行っているシミュレーションでは、より単純な「一標本t検定」を取り上げています。</p>
+        <h3 class="simple">t値やp値の分布って見たことがない</h3>
+        <p>前掲書をお読みいただくとわかりますが、途中、「p値」のヒストグラムを描いている部分があります。こういうヒストグラムを、わたしははじめて目にしました。「おお、こうしてシミュレーションするとp値は範囲[0,1]で一様分布するのか！」という驚きです。まあ、当たり前なんでしょうけど。</p>
+        <p>でも、どうして「当たり前」なのか、説明できますか？ わたしはしばらく沈思黙考していますが、まだ言語化する自信がありません。</p>
+        <p>それと、前掲書では出していないのですが、どうせならと思って、シミュレーションではt値のヒストグラムも描いています。すごいですねえ、ちゃんとt分布してるようです！（当たり前）だって、</p>
+        <p class="quote">t検定のときに計算される検定統計量Tは、帰無仮説が正しいときにt分布に従います。（前掲書, p.308）</p>
+        <p>って書いてありますから！ できることなら、標本平均の分布（平均値\(\mu\)、分散\(\sigma^2/n\)）を使って、Z検定すればいいんです。でも、母分散がわからないので、それを標本から計算した分散（不偏分散）で代用して、ちゃんと性質のわかっている確率分布にしたがう確率変数に変換しよう！というのがt検定の発想なんですね。だから、ｔ値がt分布するのは当たり前です。でも。見たことないんじゃありませんか？ t値のヒストグラムを見て「確かにt分布するなあ」って、思ったこと、ないんじゃありませんか？ 少なくとも私ははじめてでした。</p>
+        <p>とはいえ、シミュレーションで描いたヒストグラムは、単にヒストグラムを描いているだけで、t分布の確率密度曲線を重ね描きしているわけではありません。それはRで～（Javascriptで、うまいこと重ね描きできるかどうかよくわからないので、実装していないのです）。なのになぜ、「t分布する」と言えるのかというと、「分布の裾の持ちあがり方」が「t分布らしい見た目をしている」からです！ そんなざっくりした理由でいいのだろうかとも思いますが。<br /><img src="img/tvlue-hist.png"></p>
+        <p>いちおう、Rで描いたプロットものせておきます。1万回シミュレーションしたt値の分布と、赤線が自由度3（標本サイズ4なので）のt分布です。ほら、ぴったりでしょ！ （実際、t値はもっと絶対値の大きいのも出ていて、最大値は20.0、最小値は-23.9だったんですが、分布形状が見やすくなるように、±6の範囲で描いています。）</p>
+        <h3 class="simple">こんな単純な検定でも5％くらいは棄却されるのだ</h3>
+        <p>最初は、有意水準を選べるように設定したのですが、作りこんでいるうちに、有意水準10％、5％、1％を、ぜんぶまとめて表示してしまえばいいのでは？ ということに気づいて、その設定をとりやめました。ランダムにサンプリングをすると、p値が0.1を下回ることが約10％あり、0.05を下回ることが約5％あり、0.01を下回ることが約1％ある、という結果が出ます。すごい。まあ、当たり前なんだけどね。わたしたちが、実際のデータで得られる検定結果はこのうちのたった一つだけ。</p>
+        <h3 class="simple">これ、逆向きでやれないのかなあ？</h3>
+        <p>最後に、これ、逆向きでやったら面白いじゃないの？ という不穏な思い付きについて書いておきます。ここでやっているのは、</p><ol><li>帰無仮説が正しい状況でサンプリングする</li><li>それを検定すると、（帰無仮説が正しいのだから保留されるはずが）実際は数％が棄却されてしまう。</li></ol><p>ということでした。だったら、設定を反対にしてやってみたら、</p><ol><li>帰無仮説が正しくない状況でサンプリングする</li><li>それを検定すると、（帰無仮説が正しくないのだから棄却されるはずが）実際は数％が棄却されず、保留されてしまう？</li></ol><p>みたいになるのだろうか、ということです。さて、みなさんはどう思いますか。</p>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>設定と実行</h2>
+        <div id="settings">
+          <p class="user_setting">
+            <strong>母集団分布</strong>（正規分布）&nbsp;母平均 \(\mu\)=<input class="number" id="pop_mu" type="number" value="0" min="0" max="10" step="1" /><span id="pop_mu_interval"></span>&nbsp;母標準偏差 \(\sigma\)=<input class="number" id="pop_sigma" type="number" value="1" min="0.1" max="10" step="1" /><span id="pop_sigma_interval"></span>&nbsp;<br />
+            標本サイズ \(n\)=<input class="number" id="sample_size" type="number" value="4" min="4" max="20" step="1" /><span id="sample_size_interval"></span>
+          </p>
+          <p style="margin-top:0.5rem;">
+            繰り返し回数
+            <input class="number" id="trial_number" type="number" value="2000" min="1000" max="10000" step="1000" style="width:5rem;" /><span id="trial_number_interval"></span> 
+            <input class="button" id="btn_start" type="button" value="実行" />
+            <input class="button" id="btn_reset" type="button" value="リセット" />
+          </p>
+        </div>
+      </article>
+      <div id="p5"><!-- ===== 自作ライブラリの読み込みはここで ===== -->
+        <script src="lib/myRvPlotter.js"></script>
+        <script src="lib/myHistgram.js"></script>
+        <script src="scripts/ttest_1sample.js"></script>
+        <script src="js/contents.js"></script>
+      </div>
+      <div id="download" style="display:none;">
+        <p>ボタンをクリックすると、各種データのダウンロードができます。</p><p>
+        <input class="button data_download" type="button" id="raw_data" value="ローデータ" />&nbsp;
+        <input class="button data_download" type="button" id="stats_data" value="統計データ" />&nbsp;
+        <input class="button data_download" type="button" id="script" value="R スクリプト" /></p>
+      </div>
+    </main>
+  </body>
+</html>
+

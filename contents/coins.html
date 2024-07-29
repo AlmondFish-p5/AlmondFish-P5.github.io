@@ -1,1 +1,96 @@
-"coins.html" is here.
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>確率変数と確率分布</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+  <!-- ===== 自作ライブラリ ===== -->
+    <script src="lib/histgram.js" defer></script>
+    <script src="lib/descript_stat.js" defer></script>
+    <script src="js/contents.js"></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/contents_style.css">
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>【確率変数と確率分布】コイン投げシミュレーション</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="lesson">学習課題</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2>〈解説〉コイン投げと二項分布</h2>
+        <h3>コインを2枚投げたとき</h3>
+        <p>コイン投げのシミュレーションです。コインを2回投げると、2回とも表、表と裏が1回ずつ、2回とも裏の3通りの結果が予想されます。コインに偏りがなく、表の出る確率（=成功確率）が0.5のとき、上述の確率はそれぞれ、0.25、0.5、0.25となります。</p>
+        <h3>ベルヌーイ試行</h3>
+        <p>2種類の結果のうち一方が\(p\)の確率で生じるような試行をベルヌーイ試行といいます。コインを1枚投げること（表が出る確率は0.5）は、ベルヌーイ試行の一例です。（2種類の結果のうち注目している結果が生じることを「成功」、その確率を成功確率と表記します。）</p>
+        <h3>二項分布</h3>
+        <p>成功確率が\(p\)であるベルヌーイ試行を\(n\)回行ったとき、\(x\)回成功する確率、すなわち\(P(x)\)は次の式で表されます。<br />
+      \[ P(x) = {}_nC_x \ p^x (1-p)^{(n-x)}  \quad (x=1,...,n)\]<br />
+          成功回数を表す確率変数\(X\)は、成功確率\(p\)、試行回数\(n\)の二項分布にしたがいます。期待値は、\( E[X] = np \)、分散は\( V[X] = np(1-p) \)です。</p>
+        <h3>正規分布との関係</h3>
+        <p>二項分布どうしの和は二項分布になる性質があります（再生性）。試行回数を無限に大きくすると、二項分布は正規分布に近づきます。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2>〈使用方法〉コインの枚数や成功確率を変えてみよう</h2>
+        <p>ここでは、「コインを2回投げる」を<span class="red">「2枚のコインを同時に投げる」という試行に読み替えている</span>ことに注意してください。成功確率と試行回数(=コインの枚数)、繰り返し回数を指定して、表が出た枚数がどのような分布になっていくかをシミュレートします。</p>
+        <h3>シミュレーション設定</h3>
+        <ul>
+          <li>成功確率：コインの表が出る確率\((p)\)を、0.1～0.9の範囲で指定</li>
+          <li>試行回数：同時に投げるコインの枚数\((n)\)を、1～20の範囲で指定</li>
+        </ul>
+        <p>これを1回として、繰り返し回数を500～5000の範囲で指定し、<span class="button">実行</span>をクリックしてください。</p>
+        <p>シミュレーションでは、成功（表が出た）は<span style="color:#f77">●</span>、失敗（裏が出た）<span style="color:#7ff">●</span>で表示します。所要時間は、繰り返し回数1000で約35秒です（Windows10, Core i7, Chrome 124 で測定。ご利用の環境に依存します）。
+      </article>
+    <!-- ==================================== -->
+      <article id="lesson_contents" class="article_contents">
+        <h2>〈学習課題〉成功確率や試行回数と分布形状との関係</h2>
+        <ol>
+          <li>試行回数を1に固定し、成功確率を0.3や0.8などに変えて期待値と分散を計算し、シミュレーション結果と比較しましょう。</li>
+          <li>成功確率を固定し、試行回数を5や20などに変えて期待値と分散を計算し、シミュレーション結果と比較しましょう。</li>
+          <li>任意の成功確率、試行回数でシミュレーションたローデータを使って、平均値の検定（一変数t検定）をしてみましょう。</li>
+          <li>試行回数を10以上、繰り返し回数を3000以上に設定し、成功回数の分布が正規分布で近似できることを確かめましょう。</li>
+        </ol>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>設定と実行</h2>
+        <div id="settings">
+          <p>
+            成功確率\((p)=\)
+            <input class="number" id="success_prob" type="number" value="0.5" min="0.1" max="0.9" step="0.1" />
+            試行回数\((n)=\)
+            <input class="number" id="coin_number" type="number" value="2" min="1" max="20" step="1" /> 
+            繰り返し回数
+            <input class="number" id="trial_number" type="number" value="500" min="500" max="5000" step="100" /> 
+            <input class="button" id="btn_start" type="button" value="実行" />
+            <input class="button" id="btn_reset" type="button" value="リセット" />
+          </p>
+        </div>
+      </article>
+      <div id="p5">
+        <script src="scripts/coins.js"></script>
+        <script src="lib/myCoin.js"></script>
+      </div>
+      <div id="download" style="display:none;">
+        <p>ボタンをクリックすると、各種データのダウンロードができます。</p><p>
+        <input class="button data_download" type="button" id="raw_data" value="ローデータ" />&nbsp;
+        <input class="button data_download" type="button" id="stats_data" value="統計データ" />&nbsp;
+        <input class="button data_download" type="button" id="script" value="R スクリプト" /></p>
+      </div>
+    </main>
+  </body>
+</html>
