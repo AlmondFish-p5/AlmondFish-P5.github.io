@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+    <style>
+      div.description {
+        width: 80%;
+      }
+    </style>
+    <title>モンテカルロシミュレーション</title>
+  </head>
+
+  <body>
+    <div class="description">
+      <h2>モンテカルロシミュレーション</h2>
+      <p>正規分布曲線を描き、それを覆う範囲に無作為にプロットを落とします。<br />
+      分布曲線の下側、±1.96σの範囲に落ちたプロットの数から、その面積を推定します。</p>
+      <p>
+        プロットの数（10～2000）
+        <input id="plot_number" class="numberinput" type="number" step="1000" value="2000" min="1000" max="50000"></input>
+        <input id="btn_start" type="button" value="描画" />
+      </p>
+    </div>
+    <div>
+      <script src="dist04.js" type="text/javascript"></script>
+    </div>
+  </body>
+</html>

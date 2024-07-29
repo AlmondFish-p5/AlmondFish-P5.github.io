@@ -1,0 +1,88 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+    <script src="t_dist01.js" type="text/javascript"></script>
+    <style>
+      h1 {
+        margin: 0px;
+        padding: 10px;
+        font-size: 125%;
+        background-color: #afd;
+      }
+      div.description {
+        width: 90%;
+      }
+      div#prepair {
+        width: 90%;
+      }
+      p.input-area {
+        background-color: lightcyan;
+        margin: 0px 5px;
+        padding: 5px;
+      }
+      span.term {
+        font-weight: bold;
+      }
+      span#rv_about, span#smp_about{
+        color: navy;
+        font-size: 95%;
+      }
+      div#output_stats {
+
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>サンプリング体験</h1>
+    <div class="description">
+      <p>サンプリング（標本抽出）を体験しましょう。<br />
+      キャンバス全体に配置されたドットが、母集団の個体です。
+      ドットの大きさや位置は個体の持っている値とは無関係です。
+      母集団サイズ、標本サイズ、確率変数を指定して、
+      「サンプリング」を押すと、個体がぷるぷると振動します。
+      背景が明るい部分がサンプリング領域で、マウスの移動に合わせて移動しますので、
+      適当なところでクリックしてください。
+      クリックすると、サンプリング領域内の個体が標本として抽出されて、
+      抽出結果が表示されます。<br />
+      <small>母集団サイズが小さいので、本来であれば
+      有限修正が必要ですが、統計学習のトレーニング用であることを考慮して、
+      行っておりません。</small></p>
+    </div>
+    <div id="prepair">
+    <p class="input-area">
+      <span class="term">母集団サイズ</span>
+      <select id="pop_size" value=20>
+        <option value=20>400（縦20×横20）</option>
+        <option value=30>900（縦30×横30）</option>
+        <option value=40>1600（縦40×横40）</option>
+      </select> &nbsp;
+      <span class="term">標本サイズ：横</span>
+      <input id="smp_width" class="numberinput" type="number" step="1" value=3 min=3 max=6></input>
+      <span class="term">×縦</span>
+      <input id="smp_height" class="numberinput" type="number" step="1" value=3 min=3 max=6></input>
+      <span id="smp_about"></span></p>
+      <p class="input-area">
+      <span class="term">確率変数</span>
+      <select id="rv_select">
+        <option disabled selected>選択</option>
+        <option value=0>コイン投げ</option>
+        <option value=1>サイコロ投げ</option>
+        <option value=2>比率</option>
+        <option value=3>5段階尺度</option>
+        <option value=4>テスト成績</option>
+      </select> &nbsp;
+      <span id="rv_about"></span>
+      </p>
+      <p class="input-area">
+      <input id="btn_start" type="button" value="サンプリング" disabled />
+      </p><hr />
+    </div>
+    <div>
+      <script src="sample01a.js" type="text/javascript"></script>
+    </div>
+    <div id="output_stats" >
+    </div>
+  </body>
+</html>

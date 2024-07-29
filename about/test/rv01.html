@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+    <style>
+      div.description {
+        width: 60%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="description">
+      <h2>確率変数ぷるぷる 試作品１</h2>
+      <p>
+        左は標準正規分布にしたがう疑似乱数を表示しています。中央の赤細線=0、横幅≒±2.5。縦棒は発生した擬似乱数の値で、赤太線が直近の乱数値でグレーの線はその直前、さらにその直前と、遡って表示しています。数値水色の角丸正方形がぷるぷるしていますが、この動きは乱数の値とは無関係で、ぷるぷるしているイメージを表しているにすぎません。乱数をおおよそ100個発生させると自動的に止まります。
+      </p>
+      <p>
+        数値は、上段が赤太線で示している乱数の値、下段がそれより絶対値が小さい値が出る確率です。たとえば、乱数の値が±1.96のとき、確率は0.95を表示します。
+      </p>
+      <hr />
+    </div>
+    <div>
+      <script src="rv01.js" type="text/javascript"></script>
+    </div>
+    <!--
+    <div id="prpr01">
+    </div>
+    <input id="btn_stop" type="button" , value="Stop !" />
+-->
+  </body>
+</html>

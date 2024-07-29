@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>このサイトについて</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== クリップボードライブラリ ===== -->
+    <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+  <!-- ===== 自作ライブラリ ===== -->
+    <script src="js/about.js"></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/about_style.css">
+    <style>
+      .linkblock img {
+        width: 100px;
+        height: 60px;
+        object-fit: cover;
+      }
+  </style>
+  </head>
+
+  <body>
+    <main>
+      <h1>このサイトについて</h1>
+      <h2>「アニメーションによる統計学習」の成長記録</h2>
+      <p>これまでの開発の道のりを記しています。逐一記録をとってきたわけではなく、うろ覚えで書いている部分もあります。ご容赦ください。</p>
+      <div class="linkblock" href="prpr01.html">
+        <p><img src="img/number_1.png"></p>
+        <p><strong>確率変数ぷるぷる君をつくろう</strong>：アニメーション作成のきっかけは、日本心理学会主催の数学ワークショップ、アニメーション作成最初の一歩はGIFアニメーションでした。このときは、これで終わるつもりでいたのです。</p>
+      </div>
+
+      <div class="linkblock" href="prpr02.html">
+        <p><img src="img/number_2.png"></p>
+        <p><strong>p5.jsによる試作 1</strong>：p5.jsとの出会いが、アニメーションの進歩のきっかけでした。正規分布にしたがう乱数を発生させ、それをキャンバスにプロットし、ヒストグラムを描くという一連のアニメーションの基本形ができました。</p>
+      </div>
+      <div class="linkblock" href="prpr03.html">
+        <p><img src="img/number_3.png"></p>
+        <p><strong>数値シミュレーションの世界</strong>：「数値シミュレーションで読み解く統計のしくみ」という本と出会ったことが、このサイトの方向を示してくれたように思いました。乱数によるシミュレーションについての考えを整理したい、そして、この本で提示されているシミュレーションを、私なりの方法で可視化したいと思います。</p>
+      </div>
+<!--
+
+      <div class="linkblock" href="">
+        <p><img src="img/number_4.png"></p>
+        <p><strong>p5.jsによる試作 2</strong>：</p>
+      </div>
+
+      <div class="linkblock" href="">
+        <p><img src="img/number_5.png"></p>
+        <p><strong>Javascriptを用いたサイト制作</strong>：</p>
+      </div>
+
+      <div class="linkblock" href="">
+        <p><img src="img/number_6.png"></p>
+        <p><strong>独自プロットの開発</strong>：</p>
+      </div>
+-->
+    </main>
+  </body>
+</html>
+
