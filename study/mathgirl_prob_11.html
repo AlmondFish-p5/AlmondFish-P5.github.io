@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>数学ガール：研究問題を考える</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== jStat ライブラリ ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/study_style.css">
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>確率の冒険：研究問題1-1</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2>〈解説〉大数の法則</h2>
+        <h3>フェアなコインを何回も投げると</h3>
+        <p>フェアなコイン（表と裏が同じくらい出やすいコイン）を何回か投げ、表が出たか裏が出たかを記録します。表の出る確率が0.5だとすると、表の出る割合もだいたい0.5になると予想できます。実際に投げてみると、投げる回数があまり多くないときには、表の出た割合が0.6や0.4になったりします。しかし、投げる回数をどんどん増やしていくと、表の出る割合は0.5に近い値を維持し、大きく外れることはなくなります。これが「大数の法則」のイメージです。</p>
+        <p>このシミュレーションでは、コンピュータ上でコインと同じような動作をするプログラムを実行し、コインを投げる回数が多くなると、表が出る確率と、表の出た割合が、近づいていくかどうかを実験します。また、「表が出る確率が0.7のコイン」のような実際に行うことは難しい条件を設定したときに、表の出る割合がどうなるかも、実験することができます。</p>
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2>〈使用方法〉</h2>
+        <h3>実験の設定</h3>
+        <p><span class="label">コイン投げをする回数</span>を100〜2000の間で指定します。初期設定は500です。<br /><span class="label">表の出る確率</span>を0.1〜0.9の範囲で指定することができます。初期値は0.5です。</p>
+        <p><span class="button">実行</span>を押すとシミュレーションを開始し、1回コインを投げるごとに、「表が出た割合」を計算して表示します。指定された回数だけコイン投げをすると止まります。</p>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>設定と実行</h2>
+        <div id="settings">
+          <p class="user_setting">
+            コイン投げをする回数：
+            <input class="number" id="trial_number" type="number" value="500" min="100" max="2000" step="100" /><span id="trial_number_interval"></span>
+          </p>
+          <p class="user_setting">
+            表の出る確率：
+            <input class="number" id="coin_prob" type="number" value="0.5" min="0.1" max="0.9" step="0.1" /><span id="coin_prob_interval"></span>
+            <input class="button" id="btn_start" type="button" value="実行" />
+            <input class="button" id="btn_reset" type="button" value="リセット" />
+          </p>
+        </div>
+      </article>
+      <div id="p5"><!-- ===== 自作ライブラリの読み込みはここで ===== -->
+        <script src="scripts/mathgirl_prob_11.js"></script>
+        <script src="js/contents.js"></script>
+      </div>
+    </main>
+  </body>
+</html>
+
