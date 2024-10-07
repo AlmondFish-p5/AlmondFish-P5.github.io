@@ -65,7 +65,9 @@ h1 {
 }
 h2 {
   margin: 1rem 0 0.3rem;
+  padding-left: 0.5rem;
   font-size:1.5rem;
+  background-color: #edffb7bf;
 }
 h3 {
   margin: 1rem 0;
