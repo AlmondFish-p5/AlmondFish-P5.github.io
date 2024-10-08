@@ -154,7 +154,7 @@ const statsHead = () => {
   text('回数の差', cvStats.x+10, cvStats.y+120);
 };
 // 各回の統計表示：n:コイン投げ回数, freq:表の出た合計回数
-const statsEach = (n, freq) => {
+const statsEach = (n, freq, diff) => {
   push();
   noStroke();
   fill(canvas_background);
@@ -170,7 +170,7 @@ const statsEach = (n, freq) => {
   text(n, cvStats.x+cvStats.w-20, cvStats.y+30);
   text(freq, cvStats.x+cvStats.w-20, cvStats.y+60);
   text((freq/n).toFixed(3), cvStats.x+cvStats.w-20, cvStats.y+90);
-  text((freq*2-n), cvStats.x+cvStats.w-20, cvStats.y+120);
+  text(diff, cvStats.x+cvStats.w-20, cvStats.y+120);
   pop();
 };
 
@@ -260,9 +260,9 @@ function draw() {
     coinCounter++;
     for (let i=0; i<coinCounter; i++) s+=coinData[i];
     coinProp.push(s/coinCounter);
-    coinDiff.push(s*2 - coinCounter);
+    coinDiff.push((s - coinCounter*userProbability)*2);
   // 1回ごとの統計データを表示する
-    statsEach(coinCounter, s);
+    statsEach(coinCounter, s, round(coinDiff[coinCounter-1]),2);
     // 折れ線グラフを描画する
     // 折れ線グラフを描画する
     drawGraph(coinCounter, coinProp[coinCounter-1], coinProp[(coinCounter>1 ? coinCounter-2 : coinCounter-1)]);
