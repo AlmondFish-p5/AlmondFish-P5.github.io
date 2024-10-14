@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>数学ガール：研究問題を考える</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== jStat ライブラリ ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/study_style.css">
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>確率の冒険：研究問題5-1</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+    <article id="learning_contents" class="article_contents">
+      <h2>〈解説〉3つのサイコロ</h2>
+      <p>3つのサイコロにをA,B,Cとして、すべての場合を数え上げます。可能な組み合わせは、\(6^3=216\)通りあります。</p>
+      <h3>目の合計が9になるとき</h3>
+      <p><ol>
+        <li>サイコロAが1：サイコロB,Cが8（2と6、3と5、4と4、5と3、6と2の5通り）</li>
+        <li>サイコロAが2：サイコロB,Cが7（1と6、2と5、3と4、4と3、5と2、6と1の6通り）</li>
+        <li>サイコロAが3：サイコロB,Cが6（1と5、2と4、3と3、4と2、5と1の5通り）</li>
+        <li>サイコロAが4：サイコロB,Cが5（1と4、2と3、3と2、4と1の4通り）</li>
+        <li>サイコロAが5：サイコロB,Cが4（1と3、2と2、3と1の3通り）</li>
+        <li>サイコロAが6：サイコロB,Cが3（1と2、2と1の2通り）</li>
+      </ol>よって、3つのサイコロの目の合計が9になるのは、5+6+5+4+3+2=<strong>25通り</strong>。これは、すべての組み合わせのうち、\(25\div216=0.1157...\)で、<strong>約11.6％</strong>に当たります。</p>
+      <h3>目の合計が10になるとき</h3>
+      <p><ol>
+        <li>サイコロAが1：サイコロB,Cが9（3と6、4と5、5と4、6と3の4通り）</li>
+        <li>サイコロAが2：サイコロB,Cが8（2と6、3と5、4と4、5と3、6と2の5通り）</li>
+        <li>サイコロAが3：サイコロB,Cが7（1と6、2と5、3と4、4と3、5と2、6と1の6通り）</li>
+        <li>サイコロAが4：サイコロB,Cが6（1と5、2と4、3と3、4と2、5と1の5通り）</li>
+        <li>サイコロAが5：サイコロB,Cが5（1と4、2と3、3と2、4と1の4通り）</li>
+        <li>サイコロAが6：サイコロB,Cが4（1と3、2と2、3と1の3通り）</li>
+      </ol>よって、3つのサイコロの目の合計が10になるのは、4+5+6+5+4+3=<strong>27通り</strong>。これは、すべての組み合わせのうち、\(27\div216=0.125\)で、<strong>12.5％</strong>に当たります。</p>
+    </article>
+  <!-- ==================================== -->
+    <article id="usage_contents" class="article_contents">
+      <h2>〈使用方法〉</h2>
+      <h3>サイコロの設定</h3>
+      <p>サイコロ3つの場合が問題として出されていますので、初期設定である3のままで実行しましょう。より簡単な場合について試してみたい時は、サイコロを2個または1個にすることができます。</p>
+      <h3>サイコロを振る回数の設定</h3>
+      <p>「3つのサイコロを振る」のを1回として、何回サイコロを振るかを指定します。初期設定は500です。回数を2000以上くらいにすると、比較的きれいな結果が出るようになります。</p>
+      <p><span class="button">実行</span>を押すとシミュレーションを開始し、度数分布グラフを作成します。指定回数だけ繰り返したら終了し、グラフに相対度数を追加表示します。</p>
+    </article>
+    <!-- ==================================== -->
+    <article>
+      <h2>設定と実行</h2>
+      <div id="settings">
+        <p class="user_setting">
+          サイコロの数：
+          <input class="number" id="dice_number" type="number" value="3" min="1" max="3" step="1" /><span id="dice_number_interval"></span><br />
+          サイコロを振る回数：
+          <input class="number" id="trial_number" type="number" value="500" min="500" max="5000" step="100" /><span id="trial_number_interval"></span> &nbsp;／&nbsp;
+          <input class="button" id="btn_start" type="button" value="実行" />
+          <input class="button" id="btn_reset" type="button" value="リセット" />
+        </p>
+      </div>
+    </article>
+    <div id="p5"><!-- ===== 自作ライブラリの読み込みはここで ===== -->
+      <script src="scripts/mathgirl_prob_51.js"></script>
+      <script src="js/contents.js"></script>
+    </div>
+  </main>
+  </body>
+</html>
+
