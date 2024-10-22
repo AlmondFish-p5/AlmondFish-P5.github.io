@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>数学ガール：研究問題を考える</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== jStat ライブラリ ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/study_style.css">
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>確率の冒険：研究問題5-2</h1>
+      <ul class="main_navigation">
+        <li class="main_menu" id="learning">解　　説</li>
+        <li class="main_menu" id="usage">使用方法</li>
+        <li class="main_menu" id="exit">終　　了</li>
+      </ul>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2>〈解説〉未完のゲーム</h2>
+        <h3>ゲームの設定</h3>
+        <p>A、B二人のプレーヤーがゲームをしています。コイン投げをして表が出たらAが1点を、裏が出たらBが1点を得て、決められた点数に早く達した方が勝利し、賞金を獲得します。ゲームの途中、Aはあとa点で、Bはあとb点で勝利することができるときに、プレーヤーAが勝つ確率を求めてください。ただし、使用するコインは公正なもので、表が出る確率が0.5であるとします。</p>
+        <h3>一般的な回答</h3>
+        <p>本文では表が出る確率が0.5である場合について議論されています。これをもとに、研究問題では偏ったコインの場合について考えるよう課題が出されています。課題の解決過程については、下記リンクから note をお読みください。結論としては、Aが勝つ確率は、\[\displaystyle P(a,b)=\sum_{k=0}^{b-1} {n \choose k} p^{n-k}(1-p)^k\]で求められます（ただし、n=a+b-1とする）。また、公正なコインを使用した場合は、この式でp=0.5とします。</p>
+        <h3>note</h3>
+        <p><a href="https://note.com/m_fish/n/nae5744d71ab2">未完のゲームを終わらせよう</a>&nbsp;／&nbsp;<a href="https://note.com/m_fish/n/n37788068510b">【Rで検証編】未完のゲームを終わらせよう</a></p>
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2>〈使用方法〉</h2>
+        <h3>不足点数と実験回数の設定</h3>
+        <p>プレーヤーA、Bがそれぞれ、勝利までにあと何点必要かを設定します。表示領域の都合上、1〜4点の範囲とします。また、コイン投げを継続して勝負がつくまでを1回の実験とし、実験を何回繰り返すかを指定します。初期設定は500です。</p>
+        <h3>コイン投げで表の出る確率の設定</h3>
+        <p>偏ったコインを使う際の、表の出る確率を設定します。</p>
+        <h3>勝敗表示の方法について</h3>
+        <p>このシミュレーションでは、A,Bどちらかの残り点数が0になり勝負が決まった後も、コインを投げ続け、ちょうどa+b-1回のコイン投げが終わるまでの結果を表示します（ただし勝敗が決した後のコイン投げ結果については薄い色で表示します）。数式との対応関係および勝敗の集計や理論値との比較をわかりやすくするためにこのような仕様にしています。</p>
+        <p><span class="button">実行</span>を押すとシミュレーションを開始し、コイン投げの結果（表＝Aが1点、裏＝Bが1点）を表示し、最終的にA,Bどちらが勝ったかをグラフで表示します。また、途中までのプレーヤーAの勝率も折れ線グラフで表示しています。指定回数だけ実験を繰り返したら終了します。</p>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>設定と実行</h2>
+        <div id="settings">
+          <p class="user_setting">
+            勝利までの不足ポイント：
+            A<input class="number" id="shortage_0" type="number" value="2" min="1" max="4" step="1" /><span id="shortage_0_interval"></span>&nbsp;
+            B<input class="number" id="shortage_1" type="number" value="1" min="1" max="4" step="1" /><span id="shortage_1_interval"></span>&nbsp;／&nbsp;
+            実験回数：<input class="number" id="trial_number" type="number" value="500" min="500" max="5000" step="500" /><span id="trial_number_interval"></span><br />
+            コイン投げで表の出る確率：<input class="number" id="user_prob" type="number" value="0.5" min="0.1" max="0.9" step="0.1" /><span id="user_prob_interval"></span>&nbsp;／&nbsp;
+            <input class="button" id="btn_start" type="button" value="実行" />
+            <input class="button" id="btn_reset" type="button" value="リセット" />
+          </p>
+          <p><span id="expected"></span>&nbsp;&nbsp;<span style="color:red;font-weight:bold;" id="simulated"></span></p>
+        </div>
+      </article>
+      <div id="p5"><!-- ===== 自作ライブラリの読み込みはここで ===== -->
+        <script src="scripts/mathgirl_prob_52.js"></script>
+        <script src="js/contents.js"></script>
+      </div>
+    </main>
+  </body>
+</html>
+
