@@ -142,21 +142,21 @@ document.querySelector('#rvnumber').addEventListener('change', ()=>{
 // 画像のプリロード この関数で画像をロードしておかないと表示されない
 function preload() {  
   img[0] = new Array(2);
-  img[0][0] = loadImage('/img/bcoin0.png');
-  img[0][1] = loadImage('/img/bcoin1.png');
+  img[0][0] = loadImage('img/bcoin0.png');
+  img[0][1] = loadImage('img/bcoin1.png');
   img[1] = new Array(6);
-  img[1][0] = loadImage('/img/dice1.png');
-  img[1][1] = loadImage('/img/dice2.png');
-  img[1][2] = loadImage('/img/dice3.png');
-  img[1][3] = loadImage('/img/dice4.png');
-  img[1][4] = loadImage('/img/dice5.png');
-  img[1][5] = loadImage('/img/dice6.png');
+  img[1][0] = loadImage('img/dice1.png');
+  img[1][1] = loadImage('img/dice2.png');
+  img[1][2] = loadImage('img/dice3.png');
+  img[1][3] = loadImage('img/dice4.png');
+  img[1][4] = loadImage('img/dice5.png');
+  img[1][5] = loadImage('img/dice6.png');
   img[2] = new Array(5);
-  img[2][0] = loadImage('/img/tomato0.png');
-  img[2][1] = loadImage('/img/tomato1.png');
-  img[2][2] = loadImage('/img/tomato2.png');
-  img[2][3] = loadImage('/img/tomato3.png');
-  img[2][4] = loadImage('/img/tomato4.png');
+  img[2][0] = loadImage('img/tomato0.png');
+  img[2][1] = loadImage('img/tomato1.png');
+  img[2][2] = loadImage('img/tomato2.png');
+  img[2][3] = loadImage('img/tomato3.png');
+  img[2][4] = loadImage('img/tomato4.png');
 }
 // セットアップ
 function setup() {    
