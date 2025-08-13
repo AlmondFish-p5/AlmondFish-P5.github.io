@@ -92,11 +92,12 @@ div#settings p.user_setting {
   margin: auto;
   max-width: 1000px;
 }
-#result,
-#copyright {
+#result {
   margin-left: 50px;
+  margin-bottom: 25px;
 }
 #copyright {
+  margin-left: 50px;
   font-size: 0.85rem;
 }
 
@@ -104,6 +105,10 @@ div#settings p.user_setting {
   margin-left: 50px;
   margin-bottom: 30px;
   max-width: 1000px;
+}
+
+hr {
+  margin: 20px 0px;
 }
 
 /* 

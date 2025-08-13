@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>確率変数と確率分布</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="/lib/p5.min.js"></script>
+  <!-- ===== 自作ライブラリ ===== -->
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>【中心極限定理17】確率変数の独立を可視化してみる</h1>
+    </div>
+    <main>
+    <!-- ==================================== -->
+      <article id="learning_contents" class="article_contents">
+        <h2></h2>
+        <h3></h3>
+        <p></p><br />
+      </article>
+    <!-- ==================================== -->
+      <article id="usage_contents" class="article_contents">
+        <h2></h2>
+        <p></p>
+        <h3></h3>
+        <ul>
+          <li></li>
+          <li></li>
+        </ul>
+      </article>
+    <!-- ==================================== -->
+      <article id="lesson_contents" class="article_contents">
+        <h2></h2>
+      </article>
+    <!-- ==================================== -->
+      <article>
+        <h2>設定と実行</h2>
+        <div id="settings">
+          <p>
+            確率変数をえらぶ：
+            <label><input class="radio" type="radio" name="rvtype" value="0" checked />コイン投げ</label>
+            
+            <!-- <label><input class="radio" type="radio" name="rvtype" value="1" />サイコロ投げ</label> -->
+            <!-- <label><input class="radio" type="radio" name="rvtype" value="2"/>ミニトマトの重さ</label> -->
+            <nbsp;>／<nbsp;>
+            表の出る確率をかえる：
+            <input class="number" id="rvprob" type="number" value="0.5" min="0.1" max="0.9" step="0.1"/><span id="rvprob_interval"></span>
+          </p><p style="margin-top:8px">
+            確率変数の数をかえる：
+            <input class="number" id="rvnumber" type="number" value="5" min="2" max="5" step="1" /><span id="rvnumber_interval"></span>
+            <!-- <input class="button" id="btn_try" type="button" value="手　動" /> -->
+            <input class="button" id="btn_start" type="button" value="自　動" />
+            <!-- <input class="button" id="btn_stop" type="button" value="停　止" /> -->
+            <nbsp;>／<nbsp;>
+            </nbsp><input class="button" id="btn_reset" type="button" value="リセット" />
+          </p>
+        </div>
+      </article>
+      <div id="p5">
+        <script src="js/contents.js"></script>
+        <script src="js/clt17.js"></script>
+      </div>
+      <div id="result"></div>
+    </main>
+  </body>
+</html>
