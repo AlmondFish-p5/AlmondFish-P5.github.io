@@ -89,7 +89,7 @@ div#settings p.user_setting {
   シミュレーション搭載部分
 ======================================= */
 #p5 {
-  margin: auto;
+  margin-left: 50px;
   max-width: 1000px;
 }
 #result {
