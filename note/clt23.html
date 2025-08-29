@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>確率変数と確率分布</title>
+    <meta name="description" content="Javascriptとp5.jsを用いたアニメーションで統計学習をサポートします。" />
+  <!-- ===== 数式表示ライブラリ ===== -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- ===== p5.js ライブラリ ===== -->
+    <script src="/lib/p5.min.js"></script>
+  <!-- ===== 自作ライブラリ ===== -->
+  <!-- ===== スタイルシート初期化 ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+
+  <body>
+    <div class="page_header">
+      <h1>【中心極限定理23】2個の確率変数の「和」と「平均」を比較する</h1>
+    </div>
+    <main>
+      <article>
+        <h2>設定と実行</h2>
+        <div id="settings">
+          <p>
+            コインの枚数：
+            <input class="number" id="rvnumber" type="number" value="2" min="2" max="5" step="1" />枚<span id="rvnumber_interval"></span>
+            <nbsp;>／<nbsp;> 表の出る確率：<label><strong>0.5</strong></label>
+            <!-- <nbsp;>／<nbsp;> 
+            <label><input type="checkbox" id="rvsum" checked />和を考える</label>
+            <label><input type="checkbox" id="rvmean" />平均を考える</label> -->
+            <!-- 表の出る確率をかえる：
+            <input class="number" id="rvprob" type="number" value="0.5" min="0.1" max="0.9" step="0.1"/><span id="rvprob_interval"></span> -->
+          </p><p style="margin-top:8px">
+            <input class="button" id="btn_test" type="button" value="お試し実行" />
+            <nbsp;>　／　<nbsp;>
+            <input class="button" id="btn_start" type="button" value="連続実行" />
+            <input class="number" id="rviter" type="number" value="100" min="100" max="500" step="100" />回<span id="rviter_interval"></span>
+            <nbsp;>　／　<nbsp;>
+            </nbsp><input class="button" id="btn_reset" type="button" value="リセット" />
+          </p>
+        </div>
+      </article>
+      <div id="p5">
+        <script src="js/contents.js"></script>
+        <script src="js/clt23.js"></script>
+      </div>
+      <div id="result"></div>
+    </main>
+  </body>
+</html>
